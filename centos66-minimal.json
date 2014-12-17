@@ -8,8 +8,8 @@
     "iso_url": "http://mirrors.kernel.org/centos/6.6/isos/x86_64/CentOS-6.6-x86_64-minimal.iso",
     "iso_local": "file:///Volumes/VMs/ISOs/centos/6.6/isos/x86_64/CentOS-6.6-x86_64-minimal.iso",
     "iso_checksum": "4ed6c56d365bd3ab12cd88b8a480f4a62e7c66d2",
-    "ga_url": "http://download.virtualbox.org/virtualbox/{{.Version}}/VBoxGuestAdditions_{{.Version}}.iso"
-    "ga_mirror": "file:///Volumes/VMs/ISOs/virtualbox/{{.Version}}/VBoxGuestAdditions_{{.Version}}.iso"
+    "ga_url": "http://download.virtualbox.org/virtualbox/{{.Version}}/VBoxGuestAdditions_{{.Version}}.iso",
+    "ga_mirror": "file:///Volumes/VMs/ISOs/virtualbox/{{.Version}}/VBoxGuestAdditions_{{.Version}}.iso",
     "ga_checksum": "9ab48f44ac26a6deb374cb5fe6bad103bbf4fdf5186140e2d40ebe48bd01f3ea",
     "update": "true",
     "ssh_username": "vagrant",
@@ -28,7 +28,7 @@
     "http_directory": "http",
     "iso_urls": [
       "{{ user `iso_local` }}",
-      "{{ user `iso_url` }}",
+      "{{ user `iso_url` }}"
     ],
     "iso_checksum": "{{ user `iso_checksum` }}",
     "iso_checksum_type": "sha1",
@@ -54,7 +54,7 @@
     "http_directory": "http",
     "iso_urls": [
       "{{ user `iso_local` }}",
-      "{{ user `iso_url` }}",
+      "{{ user `iso_url` }}"
     ],
     "iso_checksum": "{{ user `iso_checksum` }}",
     "iso_checksum_type": "sha1",
@@ -83,7 +83,7 @@
     "http_directory": "http",
     "iso_urls": [
       "{{ user `iso_local` }}",
-      "{{ user `iso_url` }}",
+      "{{ user `iso_url` }}"
     ],
     "iso_checksum": "{{ user `iso_checksum` }}",
     "iso_checksum_type": "sha1",
