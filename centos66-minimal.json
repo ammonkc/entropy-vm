@@ -124,6 +124,15 @@
       "script/vagrant.sh",
       "script/vmtool.sh",
       "script/cmtool.sh",
+      "script/repos.sh",
+      "script/utils.sh",
+      "script/setup.sh",
+      "script/netfix.sh",
+      "script/apache.sh",
+      "script/mysqld.sh",
+      "script/php.sh",
+      "script/composer.sh",
+      "script/beanstalkd.sh",
       "script/cleanup.sh"
     ]
   }],
