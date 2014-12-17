@@ -139,6 +139,7 @@
   "post-processors": [{
     "type": "vagrant",
     "keep_input_artifact": false,
+    "vagrantfile_template": "tpl/vagrantfile-centos66-minimal.tpl",
     "output": "box/{{.Provider}}/centos66-{{user `cm`}}{{user `cm_version`}}-{{user `version`}}.box"
   }]
 }
