@@ -126,13 +126,8 @@
       "script/cmtool.sh",
       "script/repos.sh",
       "script/utils.sh",
-      "script/setup.sh",
-      "script/netfix.sh",
-      "script/apache.sh",
-      "script/mysqld.sh",
-      "script/php.sh",
-      "script/composer.sh",
-      "script/beanstalkd.sh",
+      "script/server.sh",
+      "script/h5bp.sh",
       "script/cleanup.sh"
     ]
   }],
