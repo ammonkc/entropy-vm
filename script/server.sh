@@ -2,7 +2,8 @@
 
 echo "==> Installing LAMP packages"
 
-yum --enablerepo=remi -y install httpd mod_ssl php-fpm mod_fastcgi php-mysql php-gd php-xml php-mbstring php-mcrypt php-pecl-memcached mysql mysql-server nodejs npm
+yum --enablerepo=remi -y install httpd mod_ssl php-fpm mod_fastcgi php-mysql php-gd php-xml php-mbstring php-mcrypt php-pecl-memcached memcached redis mysql mysql-server nodejs npm
+# yum --enablerepo=remi  --enablerepo=pgdg-93-centos -y install postgresql93-server postgresql93-contrib php-pgsql
 
 # Start httpd service
 chkconfig httpd --add
