@@ -2,7 +2,7 @@
 
 echo "==> Installing Apache"
 
-yum -y install httpd mod_ssl redis
+yum -y install httpd mod_ssl mod_fastcgi redis
 # yum -y install libmcrypt-devel glog-devel jemalloc-devel tbb-devel libdwarf-devel mysql-devel libxml2-devel libicu-devel pcre-devel gd-devel boost-devel sqlite-devel pam-devel bzip2-devel oniguruma-devel openldap-devel readline-devel libc-client-devel libcap-devel libevent-devel libcurl-devel
 # yum --nogpgcheck install hhvm
 # yum --enablerepo=remi  --enablerepo=pgdg-93-centos -y install postgresql93-server postgresql93-contrib php-pgsql
@@ -26,7 +26,7 @@ EOF
 mkdir -p /etc/httpd/conf/vhosts/{available,enabled}
 
 echo "==> Installing PHP-FPM"
-yum --enablerepo=remi -y install php-fpm mod_fastcgi php-gd php-xml php-mbstring php-mcrypt
+yum --enablerepo=remi -y install php-fpm php-gd php-xml php-mbstring php-mcrypt
 # Start php-fpm service
 chkconfig php-fpm --add
 chkconfig php-fpm on --levels 235
