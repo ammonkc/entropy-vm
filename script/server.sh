@@ -2,8 +2,8 @@
 
 echo "==> Installing LAMP packages"
 
-yum --enablerepo=remi -y install httpd mod_ssl php-fpm mod_fastcgi php-mysql php-gd php-xml php-mbstring php-mcrypt php-pecl-memcached memcached redis libwebp mysql mysql-devel mysql-lib mysql-server nodejs npm
-yum -y install libmcrypt-devel glog-devel jemalloc-devel tbb-devel libdwarf-devel mysql-devel libxml2-devel libicu-devel pcre-devel gd-devel boost-devel sqlite-devel pam-devel bzip2-devel oniguruma-devel openldap-devel readline-devel libc-client-devel libcap-devel libevent-devel libcurl-devel libmemcached-devel
+yum --enablerepo=remi -y install httpd mod_ssl php-fpm mod_fastcgi php-mysql php-gd php-xml php-mbstring php-mcrypt redis libwebp mysql mysql-devel mysql-lib mysql-server nodejs npm
+yum -y install libmcrypt-devel glog-devel jemalloc-devel tbb-devel libdwarf-devel mysql-devel libxml2-devel libicu-devel pcre-devel gd-devel boost-devel sqlite-devel pam-devel bzip2-devel oniguruma-devel openldap-devel readline-devel libc-client-devel libcap-devel libevent-devel libcurl-devel
 yum --nogpgcheck install hhvm
 yum --enablerepo=remi  --enablerepo=pgdg-93-centos -y install postgresql93-server postgresql93-contrib php-pgsql
 
@@ -85,10 +85,11 @@ sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 # Start Beanstalkd
 service beanstalkd start
 
-echo ">>> Config memcached"
+echo ">>> Installing memcached"
+yum --enablerepo=remi -y install php-pecl-memcached memcached libmemcached-devel
+sed -i 's/OPTIONS=""/OPTIONS="-l 127.0.0.1"/' /etc/sysconfig/memcached
 chkconfig memcached --add
 chkconfig memcached on --levels 235
-sed -i 's/OPTIONS=""/OPTIONS="-l 127.0.0.1"/' /etc/sysconfig/memcached
 service memcached start
 
 echo "==> Network fix"
