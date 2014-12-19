@@ -1,6 +1,7 @@
 {
   "variables": {
-    "version": "0.1.0",
+    "version": "2.0.0",
+    "box_name": "entropy",
     "cm": "nocm",
     "cm_version": "",
     "cleanup_pause": "",
@@ -20,7 +21,7 @@
     "no_proxy": "{{env `no_proxy`}}"
   },
   "builders": [{
-    "vm_name": "centos66",
+    "vm_name": "entropy",
     "type": "vmware-iso",
     "guest_os_type": "centos-64",
     "http_directory": "http",
@@ -47,7 +48,7 @@
     }
   },
   {
-    "vm_name": "centos66",
+    "vm_name": "entropy",
     "type": "virtualbox-iso",
     "http_directory": "http",
     "iso_urls": [
@@ -76,7 +77,7 @@
     ]
   },
   {
-    "vm_name": "centos66",
+    "vm_name": "entropy",
     "type": "parallels-iso",
     "http_directory": "http",
     "iso_urls": [
@@ -134,6 +135,6 @@
     "type": "vagrant",
     "keep_input_artifact": false,
     "vagrantfile_template": "tpl/vagrantfile-centos66-minimal.tpl",
-    "output": "box/{{.Provider}}/centos66-{{user `cm`}}{{user `cm_version`}}-{{user `version`}}.box"
+    "output": "box/{{.Provider}}/centos66-{{user `box_name`}}-{{user `version`}}.box"
   }]
 }
