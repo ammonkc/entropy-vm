@@ -81,7 +81,7 @@ echo ">>> Installing Beanstalkd"
 # -y --force-yes
 yum -y install beanstalkd
 # Set to start on system start
-sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
+sed -i "s/#START=yes/START=yes/" /etc/sysconfig/beanstalkd
 # Start Beanstalkd
 service beanstalkd start
 
