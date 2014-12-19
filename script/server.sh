@@ -10,26 +10,6 @@ chkconfig httpd --add
 chkconfig httpd on --level 2345
 service httpd start
 
-# mod_fastcgi config
-# cat <<EOF > /etc/httpd/conf.d/fastcgi.conf
-# User apache
-# Group apache
-# LoadModule fastcgi_module modules/mod_fastcgi.so
-# # dir for IPC socket files
-# FastCgiIpcDir /var/run/mod_fastcgi
-# # wrap all fastcgi script calls in suexec
-# FastCgiWrapper Off
-# # global FastCgiConfig can be overridden by FastCgiServer options in vhost config
-# FastCgiConfig -idle-timeout 20 -maxClassProcesses 1
-# <IfModule mod_fastcgi.c>
-#     DirectoryIndex index.html index.shtml index.cgi index.php
-#     AddHandler php5-fcgi .php
-#     Action php5-fcgi /php5-fcgi
-#     Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi
-#     FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -pass-header Authorization
-# </IfModule>
-# EOF
-
 # vhosts.conf
 cat <<EOF > /etc/httpd/conf.d/vhosts.conf
     ServerName entropy.dev
@@ -83,7 +63,7 @@ echo ">>> Installing Beanstalkd"
 
 # Install Beanstalkd
 # -y --force-yes
-yum --enablerepo=remi -y install beanstalkd
+yum -y install beanstalkd
 
 # Set to start on system start
 sudo sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
