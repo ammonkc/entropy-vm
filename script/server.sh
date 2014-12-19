@@ -3,9 +3,9 @@
 echo "==> Installing LAMP packages"
 
 yum --enablerepo=remi -y install httpd mod_ssl php-fpm mod_fastcgi php-mysql php-gd php-xml php-mbstring php-mcrypt redis libwebp mysql mysql-devel mysql-lib mysql-server nodejs npm
-yum -y install libmcrypt-devel glog-devel jemalloc-devel tbb-devel libdwarf-devel mysql-devel libxml2-devel libicu-devel pcre-devel gd-devel boost-devel sqlite-devel pam-devel bzip2-devel oniguruma-devel openldap-devel readline-devel libc-client-devel libcap-devel libevent-devel libcurl-devel
-yum --nogpgcheck install hhvm
-yum --enablerepo=remi  --enablerepo=pgdg-93-centos -y install postgresql93-server postgresql93-contrib php-pgsql
+# yum -y install libmcrypt-devel glog-devel jemalloc-devel tbb-devel libdwarf-devel mysql-devel libxml2-devel libicu-devel pcre-devel gd-devel boost-devel sqlite-devel pam-devel bzip2-devel oniguruma-devel openldap-devel readline-devel libc-client-devel libcap-devel libevent-devel libcurl-devel
+# yum --nogpgcheck install hhvm
+# yum --enablerepo=remi  --enablerepo=pgdg-93-centos -y install postgresql93-server postgresql93-contrib php-pgsql
 
 # Start httpd service
 chkconfig httpd --add
@@ -53,9 +53,9 @@ mysql -e "GRANT ALL ON *.* TO 'entropy'@'%' WITH GRANT OPTION; UPDATE mysql.user
 mysql -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('Dbr00+') WHERE User='root'; FLUSH PRIVILEGES;" > /dev/null 2>&1
 
 # Start postgres service
-service postgresql-9.3 initdb
-chkconfig postgresql-9.3 on
-service postgresql-9.3 start
+# service postgresql-9.3 initdb
+# chkconfig postgresql-9.3 on
+# service postgresql-9.3 start
 
 echo "==> Installing nodejs modules"
 npm install -g clean-css
