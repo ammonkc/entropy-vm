@@ -5,7 +5,7 @@
     "cm": "nocm",
     "cm_version": "",
     "cleanup_pause": "",
-    "headless": true,
+    "headless": "",
     "iso_url": "http://mirrors.kernel.org/centos/6.6/isos/x86_64/CentOS-6.6-x86_64-minimal.iso",
     "iso_local": "file:///Volumes/Burn/VMs/ISOs/centos/6.6/isos/x86_64/CentOS-6.6-x86_64-minimal.iso",
     "iso_checksum": "4ed6c56d365bd3ab12cd88b8a480f4a62e7c66d2",
