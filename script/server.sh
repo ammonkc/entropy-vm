@@ -81,12 +81,15 @@ echo ">>> Installing Beanstalkd"
 # -y --force-yes
 yum -y install beanstalkd
 # Set to start on system start
-sudo sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
+sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 # Start Beanstalkd
-sudo service beanstalkd start
+service beanstalkd start
 
 echo ">>> Config memcached"
+chkconfig memcached --add
+chkconfig memcached on --levels 235
 sed -i 's/OPTIONS=""/OPTIONS="-l 127.0.0.1"/' /etc/sysconfig/memcached
+service memcached start
 
 echo "==> Network fix"
 
