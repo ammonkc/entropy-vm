@@ -2,7 +2,9 @@
 
 echo "==> Installing LAMP packages"
 
-yum --enablerepo=remi -y install httpd mod_ssl php-fpm mod_fastcgi php-mysql php-gd php-xml php-mbstring php-mcrypt php-pecl-memcached memcached redis mysql mysql-server nodejs npm
+yum --enablerepo=remi -y install httpd mod_ssl php-fpm mod_fastcgi php-mysql php-gd php-xml php-mbstring php-mcrypt php-pecl-memcached memcached redis libwebp mysql mysql-devel mysql-lib mysql-server nodejs npm
+yum -y install libmcrypt-devel glog-devel jemalloc-devel tbb-devel libdwarf-devel mysql-devel libxml2-devel libicu-devel pcre-devel gd-devel boost-devel sqlite-devel pam-devel bzip2-devel oniguruma-devel openldap-devel readline-devel libc-client-devel libcap-devel libevent-devel libcurl-devel libmemcached-devel
+yum --nogpgcheck install hhvm
 yum --enablerepo=remi  --enablerepo=pgdg-93-centos -y install postgresql93-server postgresql93-contrib php-pgsql
 
 # Start httpd service
@@ -47,8 +49,19 @@ chkconfig mysqld --add
 chkconfig mysqld on --level 2345
 service mysqld start
 # Mysql privileges
-mysql -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('Dbr00+') WHERE User='root'; FLUSH PRIVILEGES;" > /dev/null 2>&1
 mysql -e "GRANT ALL ON *.* TO 'entropy'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('secret') WHERE User='entropy'; FLUSH PRIVILEGES;" > /dev/null 2>&1
+mysql -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('Dbr00+') WHERE User='root'; FLUSH PRIVILEGES;" > /dev/null 2>&1
+
+# Start postgres service
+service postgresql-9.3 initdb
+chkconfig postgresql-9.3 on
+service postgresql-9.3 start
+
+echo "==> Installing nodejs modules"
+npm install -g clean-css
+npm install -g bower
+npm install -g gulp
+npm install -g grunt
 
 echo "==> Installing composer"
 
@@ -67,12 +80,13 @@ echo ">>> Installing Beanstalkd"
 # Install Beanstalkd
 # -y --force-yes
 yum -y install beanstalkd
-
 # Set to start on system start
 sudo sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
-
 # Start Beanstalkd
 sudo service beanstalkd start
+
+echo ">>> Config memcached"
+sed -i 's/OPTIONS=""/OPTIONS="-l 127.0.0.1"/' /etc/sysconfig/memcached
 
 echo "==> Network fix"
 
