@@ -1,8 +1,8 @@
 #!/bin/bash -eux
 
-echo "==> Installing LAMP packages"
+echo "==> Installing Apache"
 
-yum --enablerepo=remi -y install httpd mod_ssl php-fpm mod_fastcgi php-mysql php-gd php-xml php-mbstring php-mcrypt redis libwebp mysql mysql-devel mysql-lib mysql-server nodejs npm
+yum --enablerepo=remi -y install httpd mod_ssl redis
 # yum -y install libmcrypt-devel glog-devel jemalloc-devel tbb-devel libdwarf-devel mysql-devel libxml2-devel libicu-devel pcre-devel gd-devel boost-devel sqlite-devel pam-devel bzip2-devel oniguruma-devel openldap-devel readline-devel libc-client-devel libcap-devel libevent-devel libcurl-devel
 # yum --nogpgcheck install hhvm
 # yum --enablerepo=remi  --enablerepo=pgdg-93-centos -y install postgresql93-server postgresql93-contrib php-pgsql
@@ -25,6 +25,8 @@ EOF
 # create directory for vhosts
 mkdir -p /etc/httpd/conf/vhosts/{available,enabled}
 
+echo "==> Installing PHP-FPM"
+yum --enablerepo=remi -y install php-fpm mod_fastcgi php-gd php-xml php-mbstring php-mcrypt
 # Start php-fpm service
 chkconfig php-fpm --add
 chkconfig php-fpm on --levels 235
@@ -44,6 +46,8 @@ sed -i 's/pm.max_spare_servers = 35/pm.max_spare_servers = 64/' /etc/php-fpm.d/w
 sed -i 's/;pm.max_requests = 500/pm.max_requests = 5000/' /etc/php-fpm.d/www.conf
 sed -i 's/;rlimit_files = 1024/rlimit_files = 102400/' /etc/php-fpm.d/www.conf
 
+echo "==> Installing mysqld"
+yum --enablerepo=remi -y install mysql mysql-devel mysql-lib mysql-server php-mysql
 # Start mysqld service
 chkconfig mysqld --add
 chkconfig mysqld on --level 2345
@@ -58,6 +62,7 @@ mysql -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; UPDATE mysql.user SE
 # service postgresql-9.3 start
 
 echo "==> Installing nodejs modules"
+yum -y install nodejs npm
 npm install -g clean-css
 npm install -g bower
 npm install -g gulp
