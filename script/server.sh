@@ -54,11 +54,6 @@ mysql -e "GRANT ALL ON *.* TO 'entropy'@'%' WITH GRANT OPTION; UPDATE mysql.user
 mysql -e "GRANT ALL ON *.* TO 'entropy'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;" > /dev/null 2>&1
 mysql -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('Dbr00+') WHERE User='root'; FLUSH PRIVILEGES;" > /dev/null 2>&1
 
-# Start postgres service
-# service postgresql-9.3 initdb
-# chkconfig postgresql-9.3 on
-# service postgresql-9.3 start
-
 echo "==> Installing nodejs modules"
 yum -y install nodejs npm
 npm install -g clean-css
