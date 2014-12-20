@@ -2,22 +2,10 @@
 
 echo "==> Installing html5-boilerplate apache configs"
 
-cat <<EOF >> /etc/httpd/conf.d/h5bp.conf
+cat <<EOF > /etc/httpd/conf.d/h5bp.conf
 # ######################################################################
 # # CROSS-ORIGIN                                                       #
 # ######################################################################
-
-# ----------------------------------------------------------------------
-# | Cross-origin requests                                              |
-# ----------------------------------------------------------------------
-
-# <IfModule mod_headers.c>
-#     Header set Access-Control-Allow-Origin "*"
-# </IfModule>
-
-# ----------------------------------------------------------------------
-# | Cross-origin images                                                |
-# ----------------------------------------------------------------------
 
 <IfModule mod_setenvif.c>
     <IfModule mod_headers.c>
@@ -28,51 +16,21 @@ cat <<EOF >> /etc/httpd/conf.d/h5bp.conf
     </IfModule>
 </IfModule>
 
-# ----------------------------------------------------------------------
-# | Cross-origin web fonts                                             |
-# ----------------------------------------------------------------------
-
-# Allow cross-origin access to web fonts.
-
 <IfModule mod_headers.c>
     <FilesMatch "\.(eot|otf|tt[cf]|woff2?)$">
         Header set Access-Control-Allow-Origin "*"
     </FilesMatch>
 </IfModule>
 
-# ----------------------------------------------------------------------
-# | Cross-origin resource timing                                       |
-# ----------------------------------------------------------------------
-
-# <IfModule mod_headers.c>
-#     Header set Timing-Allow-Origin: "*"
-# </IfModule>
-
-
 # ######################################################################
 # # ERRORS                                                             #
 # ######################################################################
 
-# ----------------------------------------------------------------------
-# | Custom error messages/pages                                        |
-# ----------------------------------------------------------------------
-
-# ErrorDocument 404 /404.html
-
-# ----------------------------------------------------------------------
-# | Error prevention                                                   |
-# ----------------------------------------------------------------------
-
 Options -MultiViews
-
 
 # ######################################################################
 # # INTERNET EXPLORER                                                  #
 # ######################################################################
-
-# ----------------------------------------------------------------------
-# | Document modes                                                     |
-# ----------------------------------------------------------------------
 
 <IfModule mod_headers.c>
     Header set X-UA-Compatible "IE=edge"
@@ -84,22 +42,9 @@ Options -MultiViews
     </FilesMatch>
 </IfModule>
 
-# ----------------------------------------------------------------------
-# | Iframes cookies                                                    |
-# ----------------------------------------------------------------------
-
-# <IfModule mod_headers.c>
-#     Header set P3P "policyref=\"/w3c/p3p.xml\", CP=\"IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT\""
-# </IfModule>
-
-
 # ######################################################################
 # # MEDIA TYPES AND CHARACTER ENCODINGS                                #
 # ######################################################################
-
-# ----------------------------------------------------------------------
-# | Media types                                                        |
-# ----------------------------------------------------------------------
 
 <IfModule mod_mime.c>
 
@@ -110,7 +55,6 @@ Options -MultiViews
     AddType application/vnd.geo+json                    geojson
     AddType application/xml                             atom rdf rss xml
 
-
   # JavaScript
 
     # Normalize to standard type.
@@ -118,12 +62,10 @@ Options -MultiViews
 
     AddType application/javascript                      js
 
-
   # Manifest files
 
     AddType application/x-web-app-manifest+json         webapp
     AddType text/cache-manifest                         appcache manifest
-
 
   # Media files
 
@@ -143,7 +85,6 @@ Options -MultiViews
 
     AddType image/x-icon                                cur ico
 
-
   # Web fonts
 
     AddType application/font-woff                       woff
@@ -161,7 +102,6 @@ Options -MultiViews
     AddType application/x-font-ttf                      ttc ttf
     AddType font/opentype                               otf
 
-
   # Other
 
     AddType application/octet-stream                    safariextz
@@ -175,10 +115,6 @@ Options -MultiViews
     AddType text/x-component                            htc
 
 </IfModule>
-
-# ----------------------------------------------------------------------
-# | Character encodings                                                |
-# ----------------------------------------------------------------------
 
 AddDefaultCharset utf-8
 
@@ -206,10 +142,6 @@ AddDefaultCharset utf-8
 # # REWRITES                                                           #
 # ######################################################################
 
-# ----------------------------------------------------------------------
-# | Rewrite engine                                                     |
-# ----------------------------------------------------------------------
-
 <IfModule mod_rewrite.c>
 
     # (1)
@@ -228,22 +160,6 @@ AddDefaultCharset utf-8
     # RewriteOptions <options>
 
 </IfModule>
-
-# ----------------------------------------------------------------------
-# | Forcing `https://`                                                 |
-# ----------------------------------------------------------------------
-
-# <IfModule mod_rewrite.c>
-#    RewriteEngine On
-#    RewriteCond %{HTTPS} !=on
-#    RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
-# </IfModule>
-
-# ----------------------------------------------------------------------
-# | Suppressing / Forcing the `www.` at the beginning of URLs          |
-# ----------------------------------------------------------------------
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Option 1: rewrite www.example.com → example.com
 
@@ -274,38 +190,6 @@ AddDefaultCharset utf-8
 # ######################################################################
 # # SECURITY                                                           #
 # ######################################################################
-
-# ----------------------------------------------------------------------
-# | Clickjacking                                                       |
-# ----------------------------------------------------------------------
-
-# <IfModule mod_headers.c>
-#     Header set X-Frame-Options "DENY"
-#     # `mod_headers` cannot match based on the content-type, however,
-#     # the `X-Frame-Options` response header should be send only for
-#     # HTML documents and not for the other resources.
-#     <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ico|jpe?g|js|json(ld)?|m4[av]|manifest|map|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|woff2?|xloc|xml|xpi)$">
-#         Header unset X-Frame-Options
-#     </FilesMatch>
-# </IfModule>
-
-# ----------------------------------------------------------------------
-# | Content Security Policy (CSP)                                      |
-# ----------------------------------------------------------------------
-
-# <IfModule mod_headers.c>
-#     Header set Content-Security-Policy "script-src 'self'; object-src 'self'"
-#     # `mod_headers` cannot match based on the content-type, however,
-#     # the `Content-Security-Policy` response header should be send
-#     # only for HTML documents and not for the other resources.
-#     <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ico|jpe?g|js|json(ld)?|m4[av]|manifest|map|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|woff2?|xloc|xml|xpi)$">
-#         Header unset Content-Security-Policy
-#     </FilesMatch>
-# </IfModule>
-
-# ----------------------------------------------------------------------
-# | File access                                                        |
-# ----------------------------------------------------------------------
 
 <IfModule mod_autoindex.c>
     Options -Indexes
@@ -339,51 +223,15 @@ AddDefaultCharset utf-8
 
 </FilesMatch>
 
-# ----------------------------------------------------------------------
-# | HTTP Strict Transport Security (HSTS)                              |
-# ----------------------------------------------------------------------
-
-# <IfModule mod_headers.c>
-#     Header set Strict-Transport-Security "max-age=16070400; includeSubDomains"
-# </IfModule>
-
-# ----------------------------------------------------------------------
-# | Reducing MIME type security risks                                  |
-# ----------------------------------------------------------------------
-
 <IfModule mod_headers.c>
     Header set X-Content-Type-Options "nosniff"
 </IfModule>
 
-# ----------------------------------------------------------------------
-# | Reflected Cross-Site Scripting (XSS) attacks                       |
-# ----------------------------------------------------------------------
-
-# <IfModule mod_headers.c>
-#     #                           (1)    (2)
-#     Header set X-XSS-Protection "1; mode=block"
-#     # `mod_headers` cannot match based on the content-type, however,
-#     # the `X-XSS-Protection` response header should be send only for
-#     # HTML documents and not for the other resources.
-#     <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ico|jpe?g|js|json(ld)?|m4[av]|manifest|map|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|woff2?|xloc|xml|xpi)$">
-#         Header unset X-XSS-Protection
-#     </FilesMatch>
-# </IfModule>
-
-# ----------------------------------------------------------------------
-# | Server software information                                        |
-# ----------------------------------------------------------------------
-
 ServerTokens Prod
-
 
 # ######################################################################
 # # WEB PERFORMANCE                                                    #
 # ######################################################################
-
-# ----------------------------------------------------------------------
-# | Compression                                                        |
-# ----------------------------------------------------------------------
 
 <IfModule mod_deflate.c>
 
@@ -442,32 +290,6 @@ ServerTokens Prod
     </IfModule>
 
 </IfModule>
-
-# ----------------------------------------------------------------------
-# | Content transformation                                             |
-# ----------------------------------------------------------------------
-
-# Prevent intermediate caches or proxies (e.g.: such as the ones
-# used by mobile network providers) from modifying the website's
-# content.
-#
-# https://tools.ietf.org/html/rfc2616#section-14.9.5
-#
-# (!) If you are using `mod_pagespeed`, please note that setting
-# the `Cache-Control: no-transform` response header will prevent
-# `PageSpeed` from rewriting `HTML` files, and, if the
-# `ModPagespeedDisableRewriteOnNoTransform` directive isn't set
-# to `off`, also from rewriting other resources.
-#
-# https://developers.google.com/speed/pagespeed/module/configuration#notransform
-
-# <IfModule mod_headers.c>
-#     Header merge Cache-Control "no-transform"
-# </IfModule>
-
-# ----------------------------------------------------------------------
-# | ETags                                                              |
-# ----------------------------------------------------------------------
 
 # `FileETag None` doesn't work in all cases.
 <IfModule mod_headers.c>
@@ -554,34 +376,6 @@ FileETag None
 
 </IfModule>
 
-# ----------------------------------------------------------------------
-# | File concatenation                                                 |
-# ----------------------------------------------------------------------
-
-# <IfModule mod_include.c>
-#     <FilesMatch "\.combined\.js$">
-#         Options +Includes
-#         AddOutputFilterByType INCLUDES application/javascript \
-#                                        application/x-javascript \
-#                                        text/javascript
-#         SetOutputFilter INCLUDES
-#     </FilesMatch>
-#     <FilesMatch "\.combined\.css$">
-#         Options +Includes
-#         AddOutputFilterByType INCLUDES text/css
-#         SetOutputFilter INCLUDES
-#     </FilesMatch>
-# </IfModule>
-
-# ----------------------------------------------------------------------
-# | Filename-based cache busting                                       |
-# ----------------------------------------------------------------------
-
-# <IfModule mod_rewrite.c>
-#     RewriteEngine On
-#     RewriteCond %{REQUEST_FILENAME} !-f
-#     RewriteRule ^(.+)\.(\d+)\.(bmp|css|cur|gif|ico|jpe?g|js|png|svgz?|webp)$ $1.$3 [L]
-# </IfModule>
 EOF
 
 
