@@ -121,6 +121,7 @@ chkconfig rpcbind on --level 2345
 service rpcbind start
 
 echo "==> Setup iptables"
+
 iptables -I INPUT -p tcp --dport 80 -j ACCEPT
 iptables -I INPUT -p tcp --dport 443 -j ACCEPT
 iptables -I INPUT -p tcp --dport 3306 -j ACCEPT
