@@ -51,7 +51,7 @@ chkconfig mysqld on --level 2345
 service mysqld start
 # Mysql privileges
 mysql -e "GRANT ALL ON *.* TO 'entropy'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('secret') WHERE User='entropy'; FLUSH PRIVILEGES;" > /dev/null 2>&1
-mysql -e "GRANT ALL ON *.* TO 'entropy'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;" > /dev/null 2>&1
+mysql -e "GRANT ALL ON *.* TO 'entropy'@'localhost' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('secret') WHERE User='entropy'; FLUSH PRIVILEGES;" > /dev/null 2>&1
 mysql -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('Dbr00+') WHERE User='root'; FLUSH PRIVILEGES;" > /dev/null 2>&1
 
 echo "==> Installing nodejs modules"
