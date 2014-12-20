@@ -74,6 +74,7 @@ curl -sS http://laravel.com/laravel.phar -o /usr/local/bin/laravel
 chmod 755 /usr/local/bin/laravel
 
 echo "==> Installing laravel/envoy"
+
 /usr/local/bin/composer global require "laravel/envoy=~1.0"
 
 echo ">>> Installing Beanstalkd"
