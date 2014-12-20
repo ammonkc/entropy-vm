@@ -44,7 +44,7 @@ sed -i 's/;pm.max_requests = 500/pm.max_requests = 5000/' /etc/php-fpm.d/www.con
 sed -i 's/;rlimit_files = 1024/rlimit_files = 102400/' /etc/php-fpm.d/www.conf
 
 echo "==> Installing mysqld"
-yum --enablerepo=remi -y install mysql mysql-devel mysql-lib mysql-server php-mysql
+yum --enablerepo=remi -y install mysql mysql-devel mysql-libs mysql-server php-mysql
 # Start mysqld service
 chkconfig mysqld --add
 chkconfig mysqld on --level 2345
