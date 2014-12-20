@@ -88,6 +88,7 @@ sed -i "s/#START=yes/START=yes/" /etc/sysconfig/beanstalkd
 service beanstalkd start
 
 echo ">>> Installing memcached"
+
 yum --enablerepo=remi -y install php-pecl-memcached memcached libmemcached-devel
 sed -i 's/OPTIONS=""/OPTIONS="-l 127.0.0.1"/' /etc/sysconfig/memcached
 chkconfig memcached --add
