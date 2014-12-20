@@ -35,7 +35,7 @@ mkdir /usr/lib/cgi-bin/
 # Fix Permissions
 chown -R apache:apache /var/run/mod_fastcgi
 # optimise php-fpm
-sed -i 's|; See /etc/php-fpm.d/*.conf|include=/etc/php-fpm.d/*.conf|' /etc/php-fpm.conf
+echo -e "include=/etc/php-fpm.d/*.conf" >> /etc/php-fpm.comf
 sed -i 's/;listen.backlog = -1/listen.backlog = 1000/' /etc/php-fpm.d/www.conf
 sed -i 's/pm.max_children = 50/pm.max_children = 512/' /etc/php-fpm.d/www.conf
 sed -i 's/pm.start_servers = 5/pm.start_servers = 16/' /etc/php-fpm.d/www.conf
