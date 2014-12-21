@@ -23,7 +23,7 @@ EOF
 mkdir -p /etc/httpd/conf/vhosts/{available,enabled}
 
 echo "==> Installing PHP-FPM"
-yum --enablerepo=remi -y install php-common php-fpm php-gd php-xml php-mbstring php-mcrypt
+yum --enablerepo=remi -y install php-common php-cli php-pear php-fpm php-gd php-xml php-mbstring php-mcrypt
 # Start php-fpm service
 chkconfig php-fpm --add
 chkconfig php-fpm on --levels 235
