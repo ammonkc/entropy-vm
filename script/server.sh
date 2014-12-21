@@ -64,7 +64,7 @@ npm install -g grunt
 
 echo "==> Installing composer"
 
-curl -sS https://getcomposer.org/installer | php
+curl -sS https://getcomposer.org/installer | /usr/bin/php
 mv composer.phar /usr/local/bin/composer
 chmod 755 /usr/local/bin/composer
 /usr/local/bin/composer self-update
