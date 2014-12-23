@@ -10,5 +10,5 @@ wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 wget http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
 
 rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
-sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm rpmforge-release*.rpm
+rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm rpmforge-release*.rpm
 
