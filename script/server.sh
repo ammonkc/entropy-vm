@@ -113,7 +113,7 @@ listen-address=127.0.0.1
 listen-address=192.168.10.20
 
 # read domain mapping from this file as well as /etc/hosts
-addn-hosts=/home/vagrant/hosts
+addn-hosts=/etc/dnsmasq.hosts
 expand-hosts
 EOF
 
