@@ -113,6 +113,7 @@ listen-address=192.168.10.20
 addn-hosts=/etc/dnsmasq.hosts
 expand-hosts
 EOF
+echo -e "192.168.10.20 entropy.dev" > /etc/dnsmasq.hosts
 chkconfig dnsmasq --add
 chkconfig dnsmasq on --levels 235
 service dnsmasq start
