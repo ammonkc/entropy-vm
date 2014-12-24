@@ -1,6 +1,6 @@
 {
   "variables": {
-    "version": "2.0.1",
+    "version": "2.0.2",
     "box_name": "entropy",
     "cm": "nocm",
     "cm_version": "",
