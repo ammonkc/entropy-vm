@@ -103,15 +103,12 @@ sed -i 's|#conf-dir=/etc/dnsmasq.d|conf-dir=/etc/dnsmasq.d|' /etc/dnsmasq.conf
 cat <<EOF > /etc/dnsmasq.d/dev.conf
 domain-needed
 bogus-priv
-
 # define local domain part
 # e.g. entropy.dev, myapp.dev
 address=/dev/192.168.10.20
-
 # listen on both local machine and private network
 listen-address=127.0.0.1
 listen-address=192.168.10.20
-
 # read domain mapping from this file as well as /etc/hosts
 addn-hosts=/etc/dnsmasq.hosts
 expand-hosts
