@@ -116,6 +116,9 @@ listen-address=192.168.10.20
 addn-hosts=/etc/dnsmasq.hosts
 expand-hosts
 EOF
+chkconfig dnsmasq --add
+chkconfig dnsmasq on --levels 235
+service dnsmasq start
 
 echo "==> Network fix"
 
