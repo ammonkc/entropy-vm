@@ -96,6 +96,27 @@ chkconfig memcached --add
 chkconfig memcached on --levels 235
 service memcached start
 
+echo "==> dnsmasq nameserver"
+yum -y install dnsmasq
+
+sed -i 's|#conf-dir=/etc/dnsmasq.d|conf-dir=/etc/dnsmasq.d|' /etc/dnsmasq.conf
+cat <<EOF > /etc/dnsmasq.d/dev.conf
+domain-needed
+bogus-priv
+
+# define local domain part
+# e.g. entropy.dev, myapp.dev
+address=/dev/192.168.10.20
+
+# listen on both local machine and private network
+listen-address=127.0.0.1
+listen-address=192.168.10.20
+
+# read domain mapping from this file as well as /etc/hosts
+addn-hosts=/home/vagrant/hosts
+expand-hosts
+EOF
+
 echo "==> Network fix"
 
 cat <<EOF > /etc/start_netfix.sh
@@ -127,4 +148,5 @@ iptables -I INPUT -p tcp --dport 80 -j ACCEPT
 iptables -I INPUT -p tcp --dport 443 -j ACCEPT
 iptables -I INPUT -p tcp --dport 3306 -j ACCEPT
 iptables -I INPUT -p tcp --dport 8081 -j ACCEPT
+iptables -A INPUT -p tcp --dport 53 -j ACCEPT
 service iptables save
