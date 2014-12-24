@@ -100,13 +100,9 @@ echo "==> dnsmasq nameserver"
 yum -y install dnsmasq
 
 sed -i 's|#conf-dir=/etc/dnsmasq.d|conf-dir=/etc/dnsmasq.d|' /etc/dnsmasq.conf
-cat <<EOF > /etc/dnsmasq.d/dev.conf
+cat <<EOF > /etc/dnsmasq.d/entropy.conf
 domain-needed
 bogus-priv
-# define local domain part
-# e.g. entropy.dev, myapp.dev
-domain=dev
-local=/dev/
 # listen on both local machine and private network
 listen-address=127.0.0.1
 listen-address=192.168.10.20
@@ -115,7 +111,11 @@ bind-interfaces
 addn-hosts=/etc/dnsmasq.hosts
 expand-hosts
 EOF
-echo -e "192.168.10.20 entropy.dev" > /etc/dnsmasq.hosts
+cat <<EOF > /etc/dnsmasq.d/dev.conf
+domain=dev
+local=/dev/
+EOF
+echo -e "192.168.10.20 entropy.dev" > /etc/hosts.dnsmasq
 chkconfig dnsmasq --add
 chkconfig dnsmasq on --levels 235
 service dnsmasq start
