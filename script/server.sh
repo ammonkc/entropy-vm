@@ -105,7 +105,7 @@ domain-needed
 bogus-priv
 # listen on both local machine and private network
 listen-address=127.0.0.1
-listen-address=192.168.10.20
+#listen-address=192.168.10.20
 bind-interfaces
 # read domain mapping from this file as well as /etc/hosts
 addn-hosts=/etc/hosts.dnsmasq
