@@ -21,7 +21,7 @@
     "no_proxy": "{{env `no_proxy`}}"
   },
   "builders": [{
-    "vm_name": "entropy",
+    "vm_name": "entropy70",
     "type": "vmware-iso",
     "guest_os_type": "centos-64",
     "http_directory": "http",
@@ -35,6 +35,7 @@
     "ssh_password": "{{ user `ssh_password` }}",
     "ssh_wait_timeout": "10000s",
     "headless": "{{ user `headless` }}",
+    "floppy_files": ["floppy/vmware9.compat_dcache.h.patch"],
     "tools_upload_flavor": "linux",
     "boot_command": [
       "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/ks7.cfg<enter>"
@@ -48,7 +49,7 @@
     }
   },
   {
-    "vm_name": "entropy",
+    "vm_name": "entropy70",
     "type": "virtualbox-iso",
     "http_directory": "http",
     "iso_urls": [
@@ -77,7 +78,7 @@
     ]
   },
   {
-    "vm_name": "entropy",
+    "vm_name": "entropy70",
     "type": "parallels-iso",
     "http_directory": "http",
     "iso_urls": [
@@ -127,7 +128,7 @@
       "script/cmtool.sh",
       "script/repos.sh",
       "script/utils.sh",
-      "script/wkhtmltox-centos7.sh",
+      "script/wkhtmltox.sh",
       "script/server.sh",
       "script/cleanup.sh"
     ]
