@@ -129,7 +129,6 @@
       "script/utils.sh",
       "script/wkhtmltox.sh",
       "script/server.sh",
-      "script/h5bp.sh",
       "script/cleanup.sh"
     ]
   }],

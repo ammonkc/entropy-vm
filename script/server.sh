@@ -18,6 +18,18 @@ cat <<EOF > /etc/httpd/conf.d/vhosts.conf
     # Load vhost configs from enabled directory
     Include conf/vhosts/enabled/*.conf
 EOF
+# cache.conf
+cat <<EOF > /etc/httpd/conf.d/cache.conf
+<filesMatch "\.(html|htm|js|css)$">
+  FileETag None
+  <ifModule mod_headers.c>
+     Header unset ETag
+     Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+     Header set Pragma "no-cache"
+     Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
+  </ifModule>
+</filesMatch>
+EOF
 
 # create directory for vhosts
 mkdir -p /etc/httpd/conf/vhosts/{available,enabled}
