@@ -127,7 +127,7 @@
       "script/cmtool.sh",
       "script/repos.sh",
       "script/utils.sh",
-      "script/wkhtmltox-centos6.sh",
+      "script/wkhtmltox.sh",
       "script/server.sh",
       "script/cleanup.sh"
     ]

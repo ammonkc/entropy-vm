@@ -17,7 +17,7 @@ if grep -q -i "release 7" /etc/redhat-release ; then
     wget http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el7.rf.x86_64.rpm
 fi
 
-# yum -y install epel-release
+yum -y install epel-release
 rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
-rpm -Uvh epel-release-*.rpm remi-release-*.rpm rpmforge-release-*.rpm
+rpm -Uvh remi-release-*.rpm rpmforge-release-*.rpm
 
