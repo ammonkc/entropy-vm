@@ -1,6 +1,5 @@
 #!/bin/bash -eux
 
-
 echo "==> Install EPEL, remi, and rpmforge yum repos"
 yum -y install wget
 
