@@ -36,35 +36,36 @@ echo 'Welcome to your Entropy virtual machine.' > /etc/motd
 # Disable static motd
 # sed -i 's/#PrintMotd yes/PrintMotd no/g' /etc/ssh/sshd_config
 # install motd.sh
-cat <<EOF > /etc/profile.d/motd.sh
+cat << 'EOF' > /etc/profile.d/motd.sh
 #!/bin/bash
-#
-echo -e "
-              _
-             | |
-    ___ _ __ | |_ _ __ ___  _ __  _   _
-   / _ \ '_ \| __| '__/ _ \| '_ \| | | |
-  |  __/ | | | |_| | | (_) | |_) | |_| |
-   \___|_| |_|\__|_|  \___/| .__/ \__, |
-                           | |     __/ |
-                           |_|    |___/
 
-###########################################
-Welcome to your Entropy virtual machine.
+echo -e "
+                _
+               | |
+      ___ _ __ | |_ _ __ ___  _ __  _   _
+     / _ \ '_ \| __| '__/ _ \| '_ \| | | |
+    |  __/ | | | |_| | | (_) | |_) | |_| |
+     \___|_| |_|\__|_|  \___/| .__/ \__, |
+                             | |     __/ |
+                             |_|    |___/
+
+################################################
+##  Welcome to your Entropy virtual machine.  ##
+################################################
 
 Vagrant Box.......: ammonkc/entropy 2.0.3
 hostname..........: `hostname`
 OS................: `cat /etc/redhat-release`
 kernel............: `uname -r`
-update............: `uptime`
-Apache............: `httpd -v | grep 'Server version'`
+uptime............: `uptime`
+Apache............: `httpd -v | grep version`
 PHP...............: `php -v | grep cli`
 Configured Sites..:
 
 `cat /etc/hosts.dnsmasq`
 
 You are logged in as `whoami`
-###########################################
+################################################
 "
 EOF
 
