@@ -9,6 +9,8 @@ chkconfig httpd --add
 chkconfig httpd on --level 2345
 service httpd start
 
+# Disable sendfile
+sed -i 's/#EnableSendfile off/EnableSendfile off/g' /etc/httpd/conf/httpd.conf
 # vhosts.conf
 cat <<EOF > /etc/httpd/conf.d/vhosts.conf
     ServerName entropy.dev
