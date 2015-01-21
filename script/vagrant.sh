@@ -53,7 +53,7 @@ echo -e "
 ##  Welcome to your Entropy virtual machine.  ##
 ################################################
 
-Vagrant Box.......: ammonkc/entropy 2.0.3
+Vagrant Box.......: ammonkc/entropy 2.0.4
 hostname..........: `hostname`
 OS Release........: `cat /etc/redhat-release`
 kernel............: `uname -r`
