@@ -55,7 +55,7 @@ echo -e "
 
 Vagrant Box.......: ammonkc/entropy 2.0.3
 hostname..........: `hostname`
-OS................: `cat /etc/redhat-release`
+OS Release........: `cat /etc/redhat-release`
 kernel............: `uname -r`
 uptime............: `uptime`
 Apache............: `httpd -v | grep version`
