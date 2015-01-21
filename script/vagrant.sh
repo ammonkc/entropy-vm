@@ -50,21 +50,16 @@ echo -e "
                              |_|    |___/
 
 ################################################
-##  Welcome to your Entropy virtual machine.  ##
-################################################
-
 Vagrant Box.......: ammonkc/entropy 2.0.4
 hostname..........: `hostname`
 OS Release........: `cat /etc/redhat-release`
 kernel............: `uname -r`
-uptime............: `uptime`
+User..............: `whoami`
 Apache............: `httpd -v | grep version`
 PHP...............: `php -v | grep cli`
 Configured Sites..:
 
 `cat /etc/hosts.dnsmasq`
-
-You are logged in as `whoami`
 ################################################
 "
 EOF
