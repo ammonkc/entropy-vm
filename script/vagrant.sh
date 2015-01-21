@@ -31,4 +31,4 @@ echo '==> Recording box config date'
 date > /etc/box_build_time
 
 echo '==> Customizing message of the day'
-echo 'Welcome to your Packer-built virtual machine.' > /etc/motd
+echo 'Welcome to your Entropy virtual machine.' > /etc/motd
