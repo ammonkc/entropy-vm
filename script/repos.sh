@@ -21,5 +21,5 @@ fi
 
 yum -y install epel-release
 rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
-rpm -Uvh remi-release-*.rpm rpmforge-release-*.rpm
+rpm -Uvh remi-release-*.rpm rpmforge-release-*.rpm pgdg-*.rpm
 
