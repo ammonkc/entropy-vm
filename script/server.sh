@@ -2,7 +2,7 @@
 
 echo "==> Installing Apache"
 
-yum -y install httpd mod_ssl mod_fastcgi redis
+yum -y install httpd mod_ssl mod_fastcgi
 
 # Start httpd service
 chkconfig httpd --add
@@ -71,10 +71,7 @@ mysql -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; UPDATE mysql.user SE
 
 echo "==> Installing nodejs modules"
 yum -y install nodejs npm
-npm install -g clean-css
-npm install -g bower
-npm install -g gulp
-npm install -g grunt
+npm install -g bower gulp grunt clean-css
 
 echo "==> Installing composer"
 
@@ -109,6 +106,12 @@ sed -i 's/OPTIONS=""/OPTIONS="-l 127.0.0.1"/' /etc/sysconfig/memcached
 chkconfig memcached --add
 chkconfig memcached on --levels 235
 service memcached start
+
+echo ">>> Installing redis"
+yum --enablerepo=remi -y install redis php-redis
+chkconfig --add redis
+chkconfig --level 345 redis on
+service redis start
 
 echo "==> dnsmasq nameserver"
 yum -y install dnsmasq
