@@ -52,6 +52,7 @@ echo -e "
 ################################################
 Vagrant Box.......: ammonkc/entropy 2.0.4
 hostname..........: `hostname`
+IP Address........: `/sbin/ifconfig eth1 | grep 'inet addr' | awk -F: '{print $2}' | awk '{print $1}'`
 OS Release........: `cat /etc/redhat-release`
 kernel............: `uname -r`
 User..............: `whoami`
