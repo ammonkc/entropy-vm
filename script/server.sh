@@ -102,7 +102,7 @@ echo "==> Installing laravel/envoy"
 
 /usr/local/bin/composer global require "laravel/envoy=~1.0"
 
-echo ">>> Installing Beanstalkd"
+echo "==> Installing Beanstalkd"
 
 # Install Beanstalkd
 # -y --force-yes
