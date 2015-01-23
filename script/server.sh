@@ -37,7 +37,7 @@ EOF
 mkdir -p /etc/httpd/conf/vhosts/{available,enabled}
 
 echo "==> Installing PHP-FPM"
-yum --enablerepo=remi -y install php-common php-cli php-pear php-fpm php-gd php-xml php-mbstring php-mcrypt
+yum --enablerepo=remi,remi-php56 -y install php-common php-cli php-pear php-fpm php-gd php-xml php-mbstring php-mcrypt
 # Start php-fpm service
 chkconfig php-fpm --add
 chkconfig php-fpm on --levels 235
@@ -59,7 +59,7 @@ sed -i 's/;pm.max_requests = 500/pm.max_requests = 5000/' /etc/php-fpm.d/www.con
 sed -i 's/;rlimit_files = 1024/rlimit_files = 102400/' /etc/php-fpm.d/www.conf
 
 echo "==> Installing mysqld"
-yum --enablerepo=remi -y install mysql mysql-devel mysql-server php-mysql
+yum --enablerepo=remi,remi-php56 -y install mysql mysql-devel mysql-server php-mysql
 # Start mysqld service
 chkconfig mysqld --add
 chkconfig mysqld on --level 2345
@@ -74,8 +74,8 @@ yum -y install postgresql94-server postgresql94-contrib
 service postgresql-9.4 initdb
 chkconfig postgresql-9.4 --add
 chkconfig postgresql-9.4 on --level 2345
-sed -i "s/host    all             all             127.0.0.1/32            ident/host    all             all             127.0.0.1/32            md5/" /var/lib/pgsql/9.4/data/pg_hba.conf
-sed -i "s/host    all             all             ::1/128                 ident/host    all             all             ::1/128                 md5/" /var/lib/pgsql/9.4/data/pg_hba.conf
+sed -i "s|host    all             all             127.0.0.1/32            ident|host    all             all             127.0.0.1/32            md5|" /var/lib/pgsql/9.4/data/pg_hba.conf
+sed -i "s|host    all             all             ::1/128                 ident|host    all             all             ::1/128                 md5|" /var/lib/pgsql/9.4/data/pg_hba.conf
 echo -e "host    all             all             10.0.2.2/32               md5" >> /var/lib/pgsql/9.4/data/pg_hba.conf
 service postgresql-9.4 start
 su postgres -c "psql -U postgres -c \"CREATE USER \"entropy\" WITH PASSWORD 'secret';\""
@@ -114,14 +114,14 @@ service beanstalkd start
 
 echo ">>> Installing memcached"
 
-yum --enablerepo=remi -y install php-pecl-memcached memcached libmemcached-devel
+yum --enablerepo=remi,remi-php56 -y install php-pecl-memcached memcached libmemcached-devel
 sed -i 's/OPTIONS=""/OPTIONS="-l 127.0.0.1"/' /etc/sysconfig/memcached
 chkconfig memcached --add
 chkconfig memcached on --levels 235
 service memcached start
 
 echo ">>> Installing redis"
-yum --enablerepo=remi -y install redis php-redis
+yum --enablerepo=remi,remi-php56 -y install redis php-redis
 chkconfig --add redis
 chkconfig --level 345 redis on
 service redis start
