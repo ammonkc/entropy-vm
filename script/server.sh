@@ -40,7 +40,7 @@ echo "==> Installing PHP-FPM"
 yum --enablerepo=remi -y install php-common php-cli php-pear php-fpm php-gd php-xml php-mbstring php-mcrypt
 # Start php-fpm service
 chkconfig php-fpm --add
-chkconfig php-fpm on --levels 235
+chkconfig php-fpm on --level 235
 service php-fpm start
 #Configure Apache to use mod_fastcgi
 sed -i 's/FastCgiWrapper On/FastCgiWrapper Off/g' /etc/httpd/conf.d/fastcgi.conf
@@ -108,16 +108,28 @@ echo "==> Installing Beanstalkd"
 # -y --force-yes
 yum -y install beanstalkd
 # Set to start on system start
-sed -i "s/#START=yes/START=yes/" /etc/sysconfig/beanstalkd
+chkconfig beanstalkd --add
+chkconfig beanstalkd on --level 2345
 # Start Beanstalkd
 service beanstalkd start
+
+echo "==> Installing Supervisord"
+
+# Install Beanstalkd
+# -y --force-yes
+yum -y install supervisor
+# Set to start on system start
+chkconfig supervisord --add
+chkconfig supervisord on --level 2345
+# Start Beanstalkd
+service supervisord start
 
 echo ">>> Installing memcached"
 
 yum --enablerepo=remi -y install php-pecl-memcached memcached libmemcached-devel
 sed -i 's/OPTIONS=""/OPTIONS="-l 127.0.0.1"/' /etc/sysconfig/memcached
 chkconfig memcached --add
-chkconfig memcached on --levels 235
+chkconfig memcached on --level 235
 service memcached start
 
 echo ">>> Installing redis"
@@ -147,7 +159,7 @@ local=/dev/
 EOF
 echo -e "192.168.10.20 entropy.dev" > /etc/hosts.dnsmasq
 chkconfig dnsmasq --add
-chkconfig dnsmasq on --levels 235
+chkconfig dnsmasq on --level 235
 service dnsmasq start
 
 echo "==> Network fix"
