@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.0.13 (2015-03-09)
+
+* Upgrade VirtualBox Guest Additions to 4.3.24
+* Fix issues with SELinux not always being disabled
+
+## 1.0.12 (2015-02-26)
+
+* Use the SATA HDD controller for faster disk IO speeds on VirtualBox
+* Rely on the vendor-supplied ca-bundle.crt that comes with the openssl package
+
+## 1.0.11 (2015-02-22)
+
+* Upgrade VirtualBox Guest Additions to 4.3.22
+* Upgrade VMware Tools to 9.9.2 for VMware Fusion 7.1.1
+* Upgrade Parallels Tools to 10.1.4
+
 ## 1.0.9 (2014-12-29)
 
 * Upgrade Parallels Tools to 10.1.2

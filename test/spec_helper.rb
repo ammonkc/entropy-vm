@@ -1,6 +1,7 @@
 require 'serverspec'
-require 'pathname'
 require 'net/ssh'
 
-include SpecInfra::Helper::Ssh
-include SpecInfra::Helper::DetectOS
+set :backend, :ssh
+
+# Set PATH
+set :path, '/usr/local/sbin:/usr/sbin:/sbin:$PATH'

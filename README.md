@@ -9,29 +9,29 @@ using Packer.
 
 64-bit boxes:
 
-* CentOS 7.0 (64-bit), VMware 426MB/VirtualBox 361MB/Parallels 406MB
-* CentOS 7.0 Desktop (64-bit), VMware 1.1GB/VirtualBox 1.0GB/Parallels 1.1GB
-* CentOS 7.0 Core with Docker (64-bit), VMware 434MB/VirtualBox 369MB/Parallels 415MB
-* CentOS 6.6 (64-bit), VMware 488MB/VirtualBox 405MB/Parallels 493MB
-* CentOS 6.6 Desktop (64-bit), VMware 1.2GB/VirtualBox 1.2GB/Parallels 1.2GB
-* CentOS 6.6 with Docker (64-bit), VMware 481MB/VirtualBox 411MB/Parallels 494MB
-* CentOS 6.5 (64-bit), VMware 455MB/VirtualBox 389MB/Parallels 460MB
-* CentOS 6.5 Desktop (64-bit), VMware 1.1GB/VirtualBox 1.0GB/Parallels 1.2GB
-* CentOS 6.5 with Docker (64-bit), VMware 460MB/VirtualBox 396MB/Parallels 460MB
-* CentOS 6.4 (64-bit), VMware 432MB/VirtualBox 356MB/Parallels 427MB
-* CentOS 6.4 Desktop (64-bit), VMware 1.1GB/VirtualBox 1.1GB/Parallels 1.1GB
-* CentOS 5.10 (64-bit), VMware 256MB/VirtualBox 180MB/Parallels 236MB
-* CentOS 5.10 (64-bit), VMware 254MB/VirtualBox 179MB/Parallels 234MB
-* CentOS 5.9 (64-bit), VMware 253MB/VirtualBox 177MB/Parallels 232MB
+* [CentOS 7.0 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos70)
+* [CentOS 7.0 Desktop (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos70-desktop)
+* [CentOS 7.0 Core with Docker (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos70-docker)
+* [CentOS 6.6 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos66)
+* [CentOS 6.6 Desktop (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos66-desktop)
+* [CentOS 6.6 with Docker (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos66-docker/)
+* [CentOS 6.5 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos65/)
+* [CentOS 6.5 Desktop (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos65-desktop)
+* [CentOS 6.5 with Docker (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos65-docker/)
+* [CentOS 6.4 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos64)
+* [CentOS 6.4 Desktop (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos64-desktop)
+* [CentOS 5.11 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos511)
+* [CentOS 5.10 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos510)
+* [CentOS 5.9 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos59)
 
 32-bit boxes:
 
-* CentOS 6.6 (32-bit), VMware 421MB/VirtualBox 355MB/Parallels 402MB
-* CentOS 6.5 (32-bit), VMware 407MB/VirtualBox 349MB/Parallels 403MB
-* CentOS 6.4 (32-bit), VMware 407MB/VirtualBox 324MB/Parallels 382MB
-* CentOS 5.11 (32-bit), VMware 244MB/VirtualBox 168MB/Parallels 224MB
-* CentOS 5.10 (32-bit), VMware 244MB/VirtualBox 168MB/Parallels 223MB
-* CentOS 5.9 (32-bit), VMware 242MB/VirtualBox 167MB/Parallels 222MB
+* [CentOS 6.6 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos66-i386)
+* [CentOS 6.5 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos65-i386)
+* [CentOS 6.4 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos64-i386)
+* [CentOS 5.11 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos511-i386)
+* [CentOS 5.10 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos510-i386)
+* [CentOS 5.9 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos59-i386)
 
 ## Building the Vagrant boxes
 
@@ -71,14 +71,14 @@ The tests are written in [Serverspec](http://serverspec.org) and require the
 The `Makefile` has individual targets for each box type with the prefix
 `test-*` should you wish to run tests individually for each box.  For example:
 
-    make test-box/virtualbox/centos66-nocm.box
+    make test-virtualbox/centos66-nocm.box
 
 Similarly there are targets with the prefix `ssh-*` for registering a
 newly-built box with vagrant and for logging in using just one command to
 do exploratory testing.  For example, to do exploratory testing
 on the VirtualBox training environmnet, run the following command:
 
-    make ssh-box/virtualbox/centos66-nocm.box
+    make ssh-virtualbox/centos66-nocm.box
 
 Upon logout `make ssh-*` will automatically de-register the box as well.
 
@@ -126,29 +126,19 @@ the latest OS updates will be applied.
 The variable `PACKER` can be used to set the path to the packer binary.
 The default is `packer`.
 
-Another use for `Makefile.local` is to override the default locations
-for the ISO install files.
+The variable `ISO_PATH` can be used to set the path to a directory with
+OS install images.  This override is commonly used to speed up Packer
+builds by pointing at pre-downloaded ISOs instead of using the default
+download Internet URLs.
 
-For CentOS, the ISO path variables are:
+The variables `SSH_USERNAME` and `SSH_PASSWORD` can be used to change
+the default name & password from the default `vagrant`/`vagrant`
+respectively.
 
-* CENTOS59_X86_64
-* CENTOS59_I386
-* CENTOS510_X86_64
-* CENTOS510_I386
-* CENTOS511_X86_64
-* CENTOS511_I386
-* CENTOS64_X86_64
-* CENTOS64_I386
-* CENTOS65_X86_64
-* CENTOS65_I386
-* CENTOS66_X86_64
-* CENTOS66_I386
-* CENTOS70_X86_64
-
-This override is commonly used to speed up Packer builds by
-pointing at pre-downloaded ISOs instead of using the default
-download Internet URLs:
-`CENTOS66_X86_64 := file:///Volumes/CentOS/CentOS-6.6-x86_64-bin-DVD1.iso`
+The variable `INSTALL_VAGRANT_KEY` can be set to turn off installation
+of the default insecure vagrant key when the image is being used
+outside of vagrant.  Set `INSTALL_VAGRANT_KEY := false`, the default
+is true.
 
 ## Contributing
 
@@ -162,3 +152,9 @@ download Internet URLs:
 7. If you have a large change in mind, it is still preferred that you split them into small commits.  Good commit messages are important.  The git documentatproject has some nice guidelines on [writing descriptive commit messages](http://git-scm.com/book/ch5-2.html#Commit-Guidelines).
 8. Push to your fork and submit a pull request.
 9. Once submitted, a full `make test` run will be performed against your change in the build farm.  You will be notified if the test suite fails.
+
+### Acknowledgments
+
+[SmartyStreets](http://www.smartystreets.com) is providing basebox hosting for the box-cutter project.
+
+![Powered By SmartyStreets](https://smartystreets.com/resources/images/smartystreets-flat.png)
