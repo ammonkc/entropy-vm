@@ -115,13 +115,13 @@ service beanstalkd start
 
 echo "==> Installing Supervisord"
 
-# Install Beanstalkd
+# Install Supervisord
 # -y --force-yes
 yum -y install supervisor
 # Set to start on system start
 chkconfig supervisord --add
 chkconfig supervisord on --level 2345
-# Start Beanstalkd
+# Start Supervisord
 service supervisord start
 
 echo ">>> Installing memcached"
@@ -132,7 +132,7 @@ chkconfig memcached --add
 chkconfig memcached on --level 235
 service memcached start
 
-echo ">>> Installing redis"
+echo "==> Installing redis"
 yum --enablerepo=remi -y install redis php-redis
 chkconfig --add redis
 chkconfig --level 345 redis on
