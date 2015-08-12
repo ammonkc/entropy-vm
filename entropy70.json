@@ -2,9 +2,12 @@
   "builders": [
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/ks6.cfg<enter>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/ks7.cfg<enter>"
       ],
       "disk_size": 65536,
+      "floppy_files": [
+        "floppy/vmware9.compat_dcache.h.patch"
+      ],
       "guest_os_type": "centos-64",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
@@ -18,9 +21,9 @@
       "ssh_username": "{{ user `ssh_username` }}",
       "ssh_password": "{{ user `ssh_password` }}",
       "ssh_wait_timeout": "10000s",
-      "type": "vmware-iso",
-      "vm_name": "entropy",
       "tools_upload_flavor": "linux",
+      "type": "vmware-iso",
+      "vm_name": "entropy70",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "512",
@@ -29,7 +32,7 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/ks6.cfg<enter>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/ks7.cfg<enter>"
       ],
       "disk_size": 65536,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
@@ -55,11 +58,11 @@
         ["modifyvm", "{{.Name}}", "--cpus", "1"]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "entropy"
+      "vm_name": "entropy70"
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/ks6.cfg<enter>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/ks7.cfg<enter>"
       ],
       "disk_size": 65536,
       "guest_os_type": "centos",
@@ -80,51 +83,47 @@
       "ssh_password": "{{ user `ssh_password` }}",
       "ssh_wait_timeout": "10000s",
       "type": "parallels-iso",
-      "vm_name": "entropy"
+      "vm_name": "entropy70"
     }
   ],
-  "post-processors": [
-    {
-      "keep_input_artifact": false,
-      "output": "box/{{.Provider}}/{{user `box_name`}}-{{user `version`}}.box",
-      "type": "vagrant"
-    }
-  ],
-  "provisioners": [
-    {
-      "environment_vars": [
-        "CM={{user `cm`}}",
-        "CM_VERSION={{user `cm_version`}}",
-        "CLEANUP_PAUSE={{user `cleanup_pause`}}",
-        "UPDATE={{user `update`}}",
-        "INSTALL_VAGRANT_KEY={{user `install_vagrant_key`}}",
-        "SSH_USERNAME={{user `ssh_username`}}",
-        "SSH_PASSWORD={{user `ssh_password`}}",
-        "http_proxy={{user `http_proxy`}}",
-        "https_proxy={{user `https_proxy`}}",
-        "ftp_proxy={{user `ftp_proxy`}}",
-        "rsync_proxy={{user `rsync_proxy`}}",
-        "no_proxy={{user `no_proxy`}}",
-        "BOX_VERSION={{user `version`}}",
-        "BOX_NAME={{user `box_name`}}"
-      ],
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
-      "scripts": [
-        "script/fix-slow-dns.sh",
-        "script/sshd.sh",
-        "script/update.sh",
-        "script/vagrant.sh",
-        "script/vmtool.sh",
-        "script/cmtool.sh",
-        "script/repos.sh",
-        "script/utils.sh",
-        "script/wkhtmltox.sh",
-        "script/server.sh",
-        "script/cleanup.sh"
-      ],
-      "type": "shell"
-    }
-  ],
+  "post-processors": [{
+    "keep_input_artifact": false,
+    "output": "box/{{.Provider}}/{{user `box_name`}}-{{user `version`}}.box",
+    "type": "vagrant"
+  }],
+  "provisioners": [{
+    "type": "shell",
+    "environment_vars": [
+      "CM={{user `cm`}}",
+      "CM_VERSION={{user `cm_version`}}",
+      "CLEANUP_PAUSE={{user `cleanup_pause`}}",
+      "UPDATE={{user `update`}}",
+      "INSTALL_VAGRANT_KEY={{user `install_vagrant_key`}}",
+      "SSH_USERNAME={{user `ssh_username`}}",
+      "SSH_PASSWORD={{user `ssh_password`}}",
+      "http_proxy={{user `http_proxy`}}",
+      "https_proxy={{user `https_proxy`}}",
+      "ftp_proxy={{user `ftp_proxy`}}",
+      "rsync_proxy={{user `rsync_proxy`}}",
+      "no_proxy={{user `no_proxy`}}",
+      "BOX_VERSION={{user `version`}}",
+      "BOX_NAME={{user `box_name`}}"
+    ],
+    "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+    "scripts": [
+      "script/fix-slow-dns.sh",
+      "script/sshd.sh",
+      "script/update.sh",
+      "script/vagrant.sh",
+      "script/vmtool.sh",
+      "script/cmtool.sh",
+      "script/repos.sh",
+      "script/utils.sh",
+      "script/wkhtmltox.sh",
+      "script/server.sh",
+      "script/cleanup.sh"
+    ]
+  }],
   "variables": {
     "box_name": "entropy",
     "cleanup_pause": "",
@@ -135,17 +134,17 @@
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "install_vagrant_key": "true",
-    "iso_checksum": "2ed5ea551dffc3e4b82847b3cee1f6cd748e8071",
-    "iso_name": "CentOS-6.7-x86_64-minimal.iso",
-    "iso_url": "http://mirrors.kernel.org/centos/6.7/isos/x86_64/CentOS-6.7-x86_64-minimal.iso",
-    "iso_local": "file:///Volumes/Burn/VMs/ISOs/centos/6.7/isos/x86_64/CentOS-6.7-x86_64-minimal.iso",
-    "iso_path": "file:///Volumes/Burn/VMs/ISOs/centos/6.7/isos/x86_64",
     "ga_checksum": "7b61f523db7ba75aebc4c7bb0cae2da92674fa72299e4a006c5c67517f7d786b",
+    "iso_checksum": "495a7d50eb7633c4667fbfc5e817bf244697c627",
+    "iso_url": "http://mirrors.kernel.org/centos/7.0.1406/isos/x86_64/CentOS-7.0-1406-x86_64-Minimal.iso",
+    "iso_local": "file:///Volumes/Burn/VMs/ISOs/centos/7.0.1406/isos/x86_64/CentOS-7.0-1406-x86_64-Minimal.iso",
+    "iso_name": "CentOS-7.0-1406-x86_64-Minimal.iso",
+    "iso_path": "file:///Volumes/Burn/VMs/ISOs/centos/7.0.1406/isos/x86_64",
     "no_proxy": "{{env `no_proxy`}}",
     "rsync_proxy": "{{env `rsync_proxy`}}",
     "ssh_username": "vagrant",
     "ssh_password": "vagrant",
     "update": "true",
-    "version": "2.1.0"
+    "version": "3.0.1"
   }
 }
