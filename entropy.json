@@ -106,7 +106,8 @@
         "rsync_proxy={{user `rsync_proxy`}}",
         "no_proxy={{user `no_proxy`}}",
         "BOX_VERSION={{user `version`}}",
-        "BOX_NAME={{user `box_name`}}"
+        "BOX_NAME={{user `box_name`}}",
+        "PHP_VERSION={{user `php_version`}}"
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [
@@ -142,6 +143,7 @@
     "iso_path": "file:///Volumes/Burn/VMs/ISOs/centos/6.7/isos/x86_64",
     "ga_checksum": "7b61f523db7ba75aebc4c7bb0cae2da92674fa72299e4a006c5c67517f7d786b",
     "no_proxy": "{{env `no_proxy`}}",
+    "php_version": "php56",
     "rsync_proxy": "{{env `rsync_proxy`}}",
     "ssh_username": "vagrant",
     "ssh_password": "vagrant",

@@ -37,7 +37,12 @@ EOF
 mkdir -p /etc/httpd/conf/vhosts/{available,enabled}
 
 echo "==> Installing PHP-FPM"
-yum --enablerepo=remi -y install php-common php-cli php-pear php-fpm php-gd php-xml php-mbstring php-mcrypt
+if [ "$PHP_VERSION" = "php56" ]; then
+  yum --enablerepo=remi,remi-php56 -y install php-common php-cli php-pear php-fpm php-gd php-xml php-mbstring php-mcrypt
+else
+  yum --enablerepo=remi -y install php-common php-cli php-pear php-fpm php-gd php-xml php-mbstring php-mcrypt
+fi
+
 # Start php-fpm service
 chkconfig php-fpm --add
 chkconfig php-fpm on --level 235
