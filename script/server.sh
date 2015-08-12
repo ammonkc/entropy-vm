@@ -67,7 +67,11 @@ sed -i 's/;rlimit_files = 1024/rlimit_files = 102400/' /etc/php-fpm.d/www.conf
 sed -i 's|;date.timezone =|date.timezone = Pacific/Honolulu|' /etc/php.ini
 
 echo "==> Installing mysqld"
-yum --enablerepo=remi -y install mysql mysql-devel mysql-server php-mysql
+if [ "$PHP_VERSION" = "php56" ]; then
+  yum --enablerepo=remi,remi-php56 -y install mysql mysql-devel mysql-server php-mysql
+else
+  yum --enablerepo=remi -y install mysql mysql-devel mysql-server php-mysql
+fi
 # Start mysqld service
 chkconfig mysqld --add
 chkconfig mysqld on --level 2345
@@ -134,14 +138,22 @@ service supervisord start
 
 echo ">>> Installing memcached"
 
-yum --enablerepo=remi -y install php-pecl-memcached memcached libmemcached-devel
+if [ "$PHP_VERSION" = "php56" ]; then
+  yum --enablerepo=remi,remi-php56 -y install php-pecl-memcached memcached libmemcached-devel
+else
+  yum --enablerepo=remi -y install php-pecl-memcached memcached libmemcached-devel
+fi
 sed -i 's/OPTIONS=""/OPTIONS="-l 127.0.0.1"/' /etc/sysconfig/memcached
 chkconfig memcached --add
 chkconfig memcached on --level 235
 service memcached start
 
 echo "==> Installing redis"
-yum --enablerepo=remi -y install redis php-redis
+if [ "$PHP_VERSION" = "php56" ]; then
+  yum --enablerepo=remi,remi-php56 -y install redis php-redis
+else
+  yum --enablerepo=remi -y install redis php-redis
+fi
 chkconfig --add redis
 chkconfig --level 345 redis on
 service redis start
