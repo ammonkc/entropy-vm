@@ -141,13 +141,13 @@
     "iso_url": "http://mirrors.kernel.org/centos/6.7/isos/x86_64/CentOS-6.7-x86_64-minimal.iso",
     "iso_local": "file:///Volumes/Burn/VMs/ISOs/centos/6.7/isos/x86_64/CentOS-6.7-x86_64-minimal.iso",
     "iso_path": "file:///Volumes/Burn/VMs/ISOs/centos/6.7/isos/x86_64",
-    "ga_checksum": "7b61f523db7ba75aebc4c7bb0cae2da92674fa72299e4a006c5c67517f7d786b",
+    "ga_checksum": "59ed9911c2bb22357345448c3df6104938b45fa780311d20c330e39c6e309991",
     "no_proxy": "{{env `no_proxy`}}",
     "php_version": "php56",
     "rsync_proxy": "{{env `rsync_proxy`}}",
     "ssh_username": "vagrant",
     "ssh_password": "vagrant",
     "update": "true",
-    "version": "2.1.0"
+    "version": "2.2.0"
   }
 }
