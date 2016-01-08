@@ -131,6 +131,7 @@
         "scripts/entropy/utils.sh",
         "scripts/entropy/wkhtmltox.sh",
         "scripts/entropy/server.sh",
+        "scripts/entropy/hhvm.sh",
         "scripts/centos/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
