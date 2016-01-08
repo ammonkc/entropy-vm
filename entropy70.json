@@ -1,152 +1,18 @@
 {
-  "builders": [
-    {
-      "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/ks7.cfg<enter>"
-      ],
-      "disk_size": 65536,
-      "floppy_files": [
-        "floppy/vmware9.compat_dcache.h.patch"
-      ],
-      "guest_os_type": "centos-64",
-      "headless": "{{ user `headless` }}",
-      "http_directory": "http",
-      "iso_checksum": "{{ user `iso_checksum` }}",
-      "iso_checksum_type": "sha1",
-      "iso_urls": [
-        "{{ user `iso_path` }}/{{ user `iso_name` }}",
-        "{{ user `iso_url` }}"
-      ],
-      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
-      "ssh_username": "{{ user `ssh_username` }}",
-      "ssh_password": "{{ user `ssh_password` }}",
-      "ssh_wait_timeout": "10000s",
-      "tools_upload_flavor": "linux",
-      "type": "vmware-iso",
-      "vm_name": "entropy70",
-      "vmx_data": {
-        "cpuid.coresPerSocket": "1",
-        "memsize": "512",
-        "numvcpus": "1"
-      }
-    },
-    {
-      "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/ks7.cfg<enter>"
-      ],
-      "disk_size": 65536,
-      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_additions_sha256": "{{ user `ga_checksum` }}",
-      "guest_additions_url": "file:///Volumes/Burn/VMs/ISOs/virtualbox/{{.Version}}/VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_os_type": "RedHat_64",
-      "hard_drive_interface": "sata",
-      "headless": "{{ user `headless` }}",
-      "http_directory": "http",
-      "iso_checksum": "{{ user `iso_checksum` }}",
-      "iso_checksum_type": "sha1",
-      "iso_urls": [
-        "{{ user `iso_path` }}/{{ user `iso_name` }}",
-        "{{ user `iso_url` }}"
-      ],
-      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
-      "ssh_username": "{{ user `ssh_username` }}",
-      "ssh_password": "{{ user `ssh_password` }}",
-      "ssh_wait_timeout": "10000s",
-      "type": "virtualbox-iso",
-      "vboxmanage": [
-        ["modifyvm", "{{.Name}}", "--memory", "512"],
-        ["modifyvm", "{{.Name}}", "--cpus", "1"]
-      ],
-      "virtualbox_version_file": ".vbox_version",
-      "vm_name": "entropy70"
-    },
-    {
-      "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/ks7.cfg<enter>"
-      ],
-      "disk_size": 65536,
-      "guest_os_type": "centos",
-      "http_directory": "http",
-      "iso_checksum": "{{ user `iso_checksum` }}",
-      "iso_checksum_type": "sha1",
-      "iso_urls": [
-        "{{ user `iso_path` }}/{{ user `iso_name` }}",
-        "{{ user `iso_url` }}"
-      ],
-      "parallels_tools_flavor": "lin",
-      "prlctl": [
-        ["set", "{{.Name}}", "--memsize", "512"],
-        ["set", "{{.Name}}", "--cpus", "1"]
-      ],
-      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
-      "ssh_username": "{{ user `ssh_username` }}",
-      "ssh_password": "{{ user `ssh_password` }}",
-      "ssh_wait_timeout": "10000s",
-      "type": "parallels-iso",
-      "vm_name": "entropy70"
-    }
-  ],
-  "post-processors": [{
-    "keep_input_artifact": false,
-    "output": "box/{{.Provider}}/{{user `box_name`}}-{{user `version`}}.box",
-    "type": "vagrant"
-  }],
-  "provisioners": [{
-    "type": "shell",
-    "environment_vars": [
-      "CM={{user `cm`}}",
-      "CM_VERSION={{user `cm_version`}}",
-      "CLEANUP_PAUSE={{user `cleanup_pause`}}",
-      "UPDATE={{user `update`}}",
-      "INSTALL_VAGRANT_KEY={{user `install_vagrant_key`}}",
-      "SSH_USERNAME={{user `ssh_username`}}",
-      "SSH_PASSWORD={{user `ssh_password`}}",
-      "http_proxy={{user `http_proxy`}}",
-      "https_proxy={{user `https_proxy`}}",
-      "ftp_proxy={{user `ftp_proxy`}}",
-      "rsync_proxy={{user `rsync_proxy`}}",
-      "no_proxy={{user `no_proxy`}}",
-      "BOX_VERSION={{user `version`}}",
-      "BOX_NAME={{user `box_name`}}",
-      "PHP_VERSION={{user `php_version`}}"
-    ],
-    "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
-    "scripts": [
-      "script/fix-slow-dns.sh",
-      "script/sshd.sh",
-      "script/update.sh",
-      "script/vagrant.sh",
-      "script/vmtool.sh",
-      "script/cmtool.sh",
-      "script/repos.sh",
-      "script/utils.sh",
-      "script/wkhtmltox.sh",
-      "script/server.sh",
-      "script/cleanup.sh"
-    ]
-  }],
-  "variables": {
-    "box_name": "entropy",
-    "cleanup_pause": "",
-    "cm": "nocm",
-    "cm_version": "",
-    "ftp_proxy": "{{env `ftp_proxy`}}",
-    "headless": "true",
-    "http_proxy": "{{env `http_proxy`}}",
-    "https_proxy": "{{env `https_proxy`}}",
-    "install_vagrant_key": "true",
-    "ga_checksum": "7b61f523db7ba75aebc4c7bb0cae2da92674fa72299e4a006c5c67517f7d786b",
-    "iso_checksum": "495a7d50eb7633c4667fbfc5e817bf244697c627",
-    "iso_url": "http://mirrors.kernel.org/centos/7.0.1406/isos/x86_64/CentOS-7.0-1406-x86_64-Minimal.iso",
-    "iso_local": "file:///Volumes/Burn/VMs/ISOs/centos/7.0.1406/isos/x86_64/CentOS-7.0-1406-x86_64-Minimal.iso",
-    "iso_name": "CentOS-7.0-1406-x86_64-Minimal.iso",
-    "iso_path": "file:///Volumes/Burn/VMs/ISOs/centos/7.0.1406/isos/x86_64",
-    "no_proxy": "{{env `no_proxy`}}",
-    "php_version": "php56",
-    "rsync_proxy": "{{env `rsync_proxy`}}",
-    "ssh_username": "vagrant",
-    "ssh_password": "vagrant",
-    "update": "true",
-    "version": "3.0.1"
-  }
+  "_comment": "Build with `packer build -var-file=entropy70.json entropy.json`",
+  "vm_name": "entropy",
+  "cpus": "1",
+  "disk_size": "65536",
+  "ga_checksum": "61a19c9ec4b449cbc6bb41b636b03a16bf5a47ffa4943423d262863017e8bc9b",
+  "iso_checksum": "04e99a4f1a013b95a7ebc9a90ffa9ac64d28eb9872bc193fbd7c581ec9b6a360",
+  "iso_checksum_type": "sha256",
+  "iso_name": "CentOS-7.0-1406-x86_64-Minimal.iso",
+  "local_directory": "7.0.1406/isos/x86_64",
+  "mirror": "http://mirrors.kernel.org/centos",
+  "mirror_directory": "7.0.1406/isos/x86_64",
+  "kickstart": "ks7.cfg",
+  "memory": "512",
+  "parallels_guest_os_type": "centos7",
+  "php_version": "php56",
+  "version": "3.0.1"
 }

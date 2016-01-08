@@ -3,7 +3,7 @@
   "vm_name": "entropy",
   "cpus": "1",
   "disk_size": "65536",
-  "ga_checksum": "7b61f523db7ba75aebc4c7bb0cae2da92674fa72299e4a006c5c67517f7d786b",
+  "ga_checksum": "61a19c9ec4b449cbc6bb41b636b03a16bf5a47ffa4943423d262863017e8bc9b",
   "iso_checksum": "f90e4d28fa377669b2db16cbcb451fcb9a89d2460e3645993e30e137ac37d284",
   "iso_checksum_type": "sha256",
   "iso_name": "CentOS-7-x86_64-Minimal-1511.iso",
