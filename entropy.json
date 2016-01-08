@@ -150,7 +150,7 @@
     "docker": "false",
     "ftp_proxy": "{{env `ftp_proxy`}}",
     "ga_checksum": "61a19c9ec4b449cbc6bb41b636b03a16bf5a47ffa4943423d262863017e8bc9b",
-    "headless": "",
+    "headless": "true",
     "hhvm": "true",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
