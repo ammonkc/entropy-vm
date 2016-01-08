@@ -2,7 +2,7 @@
 
 echo "==> Installing HHVM"
 yum --nogpgcheck --enablerepo=remi,remi-php56 -y install hhvm
-cat <<- EOF > /etc/rc.d/init.d/hhvm
+cat <<- 'EOF' > /etc/rc.d/init.d/hhvm
   #!/bin/bash
 
   # Source function library.
@@ -83,7 +83,7 @@ cat <<- EOF > /etc/rc.d/init.d/hhvm
   exit $RETVAL
 EOF
 
-cat <<- EOF > /etc/hhvm/daemon.hdf
+cat <<- 'EOF' > /etc/hhvm/daemon.hdf
   PidFile = /var/run/hhvm/pid
 
   Server {
