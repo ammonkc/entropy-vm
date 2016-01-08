@@ -3,6 +3,7 @@
 if [[ $HHVM  =~ true || $HHVM =~ 1 || $HHVM =~ yes ]]; then
 echo "==> Installing HHVM"
 yum --nogpgcheck --enablerepo=remi,remi-php56 -y install hhvm
+
 cat << 'EOF' > /etc/rc.d/init.d/hhvm
 #!/bin/bash
 
