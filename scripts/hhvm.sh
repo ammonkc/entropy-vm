@@ -1,7 +1,7 @@
 #!/bin/bash -eux
 
 echo "==> Installing HHVM"
-yum --nogpgcheck -y install hhvm
+yum --nogpgcheck --enablerepo=remi,remi-php56 -y install hhvm
 cat <<- EOF > /etc/rc.d/init.d/hhvm
   #!/bin/bash
 
@@ -15,7 +15,7 @@ cat <<- EOF > /etc/rc.d/init.d/hhvm
   ADDITIONAL_ARGS=""
 
   hhvm=/usr/bin/hhvm
-  prog=`/bin/basename $hhvm`
+  prog=$(/bin/basename $hhvm)
   lockfile=/var/lock/subsys/hhvm
   pidfile=/var/run/hhvm/pid
   RETVAL=0
