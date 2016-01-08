@@ -32,6 +32,7 @@ PHP...............: `php -v | grep cli | awk '{print $2}'`
 HHVM..............: `hhvm --version | grep 'HipHop VM' | awk '{print $3}'`
 MySQL.............: `mysql -V | awk '{print $5}' | tr -d ,`
 PostgreSQL........: `psql --version | awk '{print $3}'`
+Wkhtmltopdf.......: `wkhtmltopdf --version | awk '{print $2}'`
 Configured Sites..:
 `cat /etc/hosts.dnsmasq`
 ################################################
