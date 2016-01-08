@@ -66,7 +66,7 @@ if [ $(ls | wc -w) -gt 16 ]; then
 fi
 popd
 
-echo "==> Remove packages needed for building guest tools"
+# echo "==> Remove packages needed for building guest tools"
 # yum -y remove gcc cpp libmpc mpfr kernel-devel kernel-headers perl
 
 echo "==> Clean up yum cache of metadata and packages to save space"
