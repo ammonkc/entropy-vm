@@ -66,6 +66,158 @@ sed -i 's/;rlimit_files = 1024/rlimit_files = 102400/' /etc/php-fpm.d/www.conf
 # Set php timezone
 sed -i 's|;date.timezone =|date.timezone = Pacific/Honolulu|' /etc/php.ini
 
+echo "==> Installing HHVM"
+yum --nogpgcheck -y install hhvm
+cat <<EOF > /etc/rc.d/init.d/hhvm
+#!/bin/bash
+#
+# /etc/rc.d/init.d/hhvm
+#
+# Starts the hhvm daemon
+#
+# chkconfig: 345 26 74
+# description: HHVM (aka the HipHop Virtual Machine) is an open-source virtual machine designed for executing programs written in Hack and PHP
+# processname: hhvm
+
+### BEGIN INIT INFO
+# Provides: hhvm
+# Required-Start: $local_fs
+# Required-Stop: $local_fs
+# Default-Start:  2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: start and stop hhvm
+# Description: HHVM (aka the HipHop Virtual Machine) is an open-source virtual machine designed for executing programs written in Hack and PHP
+### END INIT INFO
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Default values. This values can be overwritten in '/etc/default/hhvm'
+CONFIG_FILE="/etc/hhvm/daemon.hdf"
+SYSTEM_CONFIG_FILE="/etc/hhvm/php.ini"
+RUN_AS_USER="apache"
+RUN_AS_GROUP="apache"
+ADDITIONAL_ARGS=""
+
+hhvm=/usr/bin/hhvm
+prog=`/bin/basename $hhvm`
+lockfile=/var/lock/subsys/hhvm
+pidfile=/var/run/hhvm/pid
+RETVAL=0
+
+test -x /usr/bin/hhvm || exit 1
+
+start() {
+    echo -n $"Starting $prog: "
+    touch $pidfile
+    chown $RUN_AS_USER:$RUN_AS_GROUP $pidfile
+    daemon --pidfile ${pidfile} ${hhvm} --config ${CONFIG_FILE} --mode daemon
+    RETVAL=$?
+    echo
+    [ $RETVAL = 0 ] && touch ${lockfile}
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc -p ${pidfile} ${prog}
+    RETVAL=$?
+    echo
+    [ $RETVAL = 0 ] && rm -f ${lockfile} ${pidfile}
+}
+
+rh_status() {
+    status -p ${pidfile} ${hhvm}
+}
+
+check_run_dir() {
+    # Only perform folder creation, if the PIDFILE location was not modified
+    PIDFILE_BASEDIR=$(dirname ${pidfile})
+    # We might have a tmpfs /var/run.
+    if [ "/var/run/hhvm" = "${PIDFILE_BASEDIR}" ] && [ ! -d /var/run/hhvm ]; then
+        mkdir -p -m0755 /var/run/hhvm
+        chown $RUN_AS_USER:$RUN_AS_GROUP /var/run/hhvm
+    fi
+}
+
+case "$1" in
+  start)
+  check_run_dir
+        rh_status >/dev/null 2>&1 && exit 0
+        start
+        ;;
+  stop)
+        stop
+        ;;
+
+  reload|force-reload|restart|try-restart)
+        stop
+        start
+        ;;
+
+  status)
+        rh_status
+        RETVAL=$?
+        ;;
+
+  *)
+        echo "Usage: /etc/init.d/hhvm {start|stop|restart|status}"
+        exit 2
+esac
+
+exit $RETVAL
+EOF
+
+cat <<EOF > /etc/hhvm/daemon.hdf
+PidFile = /var/run/hhvm/pid
+
+Server {
+  Port = 9001
+  Type = fastcgi
+  FixPathInfo = true
+  DefaultDocument = index.php
+}
+Log {
+  Level = Warning
+  AlwaysLogUnhandledExceptions = true
+  RuntimeErrorReportingLevel = 8191
+  UseLogFile = true
+  UseSyslog = false
+  File = /var/log/hhvm/error.log
+  Access {
+    * {
+      File = /var/log/hhvm/access.log
+      Format = %h %l %u % t \"%r\" %>s %b
+    }
+  }
+}
+Eval {
+  Jit = true
+  EnableHipHopSyntax = true
+}
+Repo {
+  Central {
+    Path = /var/log/hhvm/.hhvm.hhbc
+  }
+}
+#include "/usr/share/hhvm/hdf/static.mime-types.hdf"
+StaticFile {
+  FilesMatch {
+    * {
+      pattern = .*\.(dll|exe)
+      headers {
+        * = Content-Disposition: attachment
+      }
+    }
+  }
+  Extensions : StaticMimeTypes
+}
+MySQL {
+  TypedResults = false
+}
+EOF
+
+
 echo "==> Installing mysqld"
 if [ "$PHP_VERSION" = "php56" ]; then
   yum --enablerepo=remi,remi-php56 -y install mysql mysql-devel mysql-server php-mysql

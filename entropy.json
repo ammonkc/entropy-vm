@@ -9,10 +9,10 @@
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "{{ user `iso_checksum` }}",
-      "iso_checksum_type": "sha1",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_urls": [
-        "{{ user `iso_path` }}/{{ user `iso_name` }}",
-        "{{ user `iso_url` }}"
+        "{{ user `local` }}/{{ user `local_directory` }}/{{ user `iso_name` }}",
+        "{{ user `mirror` }}/{{ user `mirror_directory` }}/{{ user `iso_name` }}"
       ],
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_username": "{{ user `ssh_username` }}",
@@ -42,8 +42,8 @@
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "sha1",
       "iso_urls": [
-        "{{ user `iso_path` }}/{{ user `iso_name` }}",
-        "{{ user `iso_url` }}"
+        "{{ user `local` }}/{{ user `local_directory` }}/{{ user `iso_name` }}",
+        "{{ user `mirror` }}/{{ user `mirror_directory` }}/{{ user `iso_name` }}"
       ],
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_username": "{{ user `ssh_username` }}",
@@ -67,8 +67,8 @@
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "sha1",
       "iso_urls": [
-        "{{ user `iso_path` }}/{{ user `iso_name` }}",
-        "{{ user `iso_url` }}"
+        "{{ user `local` }}/{{ user `local_directory` }}/{{ user `iso_name` }}",
+        "{{ user `mirror` }}/{{ user `mirror_directory` }}/{{ user `iso_name` }}"
       ],
       "parallels_tools_flavor": "lin",
       "prlctl": [
@@ -111,17 +111,19 @@
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [
-        "script/fix-slow-dns.sh",
-        "script/sshd.sh",
-        "script/update.sh",
-        "script/vagrant.sh",
-        "script/vmtool.sh",
-        "script/cmtool.sh",
-        "script/repos.sh",
-        "script/utils.sh",
-        "script/wkhtmltox.sh",
-        "script/server.sh",
-        "script/cleanup.sh"
+        "scripts/common/metadata.sh",
+        "scripts/common/sshd.sh",
+        "scripts/centos/networking.sh",
+        "script/entropy/update.sh",
+        "scripts/common/vagrant.sh",
+        "scripts/entropy/entropy.sh",
+        "scripts/common/vmtools.sh",
+        "script/entropy/repos.sh",
+        "script/entropy/utils.sh",
+        "script/entropy/wkhtmltox.sh",
+        "script/entropy/server.sh",
+        "scripts/centos/cleanup.sh",
+        "scripts/common/minimize.sh"
       ],
       "type": "shell"
     }
@@ -132,22 +134,25 @@
     "cm": "nocm",
     "cm_version": "",
     "ftp_proxy": "{{env `ftp_proxy`}}",
+    "ga_checksum": "61a19c9ec4b449cbc6bb41b636b03a16bf5a47ffa4943423d262863017e8bc9b",
     "headless": "true",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "install_vagrant_key": "true",
-    "iso_checksum": "2ed5ea551dffc3e4b82847b3cee1f6cd748e8071",
+    "iso_checksum": "9d3fec5897be6b3fed4d3dda80b8fa7bb62c616bbfd4bdcd27295ca9b764f498",
+    "iso_checksum_type": "sha256",
     "iso_name": "CentOS-6.7-x86_64-minimal.iso",
-    "iso_url": "http://mirrors.kernel.org/centos/6.7/isos/x86_64/CentOS-6.7-x86_64-minimal.iso",
-    "iso_local": "file:///Volumes/Burn/VMs/ISOs/centos/6.7/isos/x86_64/CentOS-6.7-x86_64-minimal.iso",
-    "iso_path": "file:///Volumes/Burn/VMs/ISOs/centos/6.7/isos/x86_64",
-    "ga_checksum": "59ed9911c2bb22357345448c3df6104938b45fa780311d20c330e39c6e309991",
+    "local": "file:///Volumes/Burn/VMs/ISOs/centos",
+    "local_directory": "6.7/isos/x86_64",
+    "mirror": "http://mirrors.kernel.org/centos",
+    "mirror_directory": "6.7/isos/x86_64",
+    "name": "centos-6.7",
     "no_proxy": "{{env `no_proxy`}}",
     "php_version": "php56",
     "rsync_proxy": "{{env `rsync_proxy`}}",
     "ssh_username": "vagrant",
     "ssh_password": "vagrant",
     "update": "true",
-    "version": "2.2.0"
+    "version": "2.3.0"
   }
 }
