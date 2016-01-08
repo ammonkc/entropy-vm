@@ -59,6 +59,3 @@ AddDefaultCharset utf-8
 </IfModule>
 EOF
 
-
-# Restart httpd
-service httpd start
