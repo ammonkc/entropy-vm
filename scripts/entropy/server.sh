@@ -66,6 +66,34 @@ sed -i 's/;rlimit_files = 1024/rlimit_files = 102400/' /etc/php-fpm.d/www.conf
 # Set php timezone
 sed -i 's|;date.timezone =|date.timezone = Pacific/Honolulu|' /etc/php.ini
 
+echo "==> Installing mysqld"
+if [ "$PHP_VERSION" = "php56" ]; then
+  yum --enablerepo=remi,remi-php56 -y install mysql mysql-devel mysql-server php-mysql
+else
+  yum --enablerepo=remi -y install mysql mysql-devel mysql-server php-mysql
+fi
+# Start mysqld service
+chkconfig mysqld --add
+chkconfig mysqld on --level 2345
+service mysqld start
+# Mysql privileges
+mysql -e "GRANT ALL ON *.* TO 'entropy'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('secret') WHERE User='entropy'; FLUSH PRIVILEGES;" > /dev/null 2>&1
+mysql -e "GRANT ALL ON *.* TO 'entropy'@'localhost' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('secret') WHERE User='entropy'; FLUSH PRIVILEGES;" > /dev/null 2>&1
+mysql -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('Dbr00+') WHERE User='root'; FLUSH PRIVILEGES;" > /dev/null 2>&1
+
+echo "==> Installing postgreSQL"
+yum -y install postgresql94-server postgresql94-contrib
+service postgresql-9.4 initdb
+chkconfig postgresql-9.4 --add
+chkconfig postgresql-9.4 on --level 2345
+sed -i "s|host    all             all             127.0.0.1/32            ident|host    all             all             127.0.0.1/32            md5|" /var/lib/pgsql/9.4/data/pg_hba.conf
+sed -i "s|host    all             all             ::1/128                 ident|host    all             all             ::1/128                 md5|" /var/lib/pgsql/9.4/data/pg_hba.conf
+echo -e "host    all             all             10.0.2.2/32               md5" >> /var/lib/pgsql/9.4/data/pg_hba.conf
+service postgresql-9.4 start
+su postgres -c "psql -U postgres -c \"CREATE USER \"entropy\" WITH PASSWORD 'secret';\""
+su postgres -c "psql -U postgres -c \"ALTER USER entropy WITH SUPERUSER;\""
+su postgres -c "createdb -O entropy 'entropy'"
+
 echo "==> Installing HHVM"
 yum --nogpgcheck -y install hhvm
 cat <<EOF > /etc/rc.d/init.d/hhvm
@@ -216,35 +244,6 @@ MySQL {
   TypedResults = false
 }
 EOF
-
-
-echo "==> Installing mysqld"
-if [ "$PHP_VERSION" = "php56" ]; then
-  yum --enablerepo=remi,remi-php56 -y install mysql mysql-devel mysql-server php-mysql
-else
-  yum --enablerepo=remi -y install mysql mysql-devel mysql-server php-mysql
-fi
-# Start mysqld service
-chkconfig mysqld --add
-chkconfig mysqld on --level 2345
-service mysqld start
-# Mysql privileges
-mysql -e "GRANT ALL ON *.* TO 'entropy'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('secret') WHERE User='entropy'; FLUSH PRIVILEGES;" > /dev/null 2>&1
-mysql -e "GRANT ALL ON *.* TO 'entropy'@'localhost' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('secret') WHERE User='entropy'; FLUSH PRIVILEGES;" > /dev/null 2>&1
-mysql -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('Dbr00+') WHERE User='root'; FLUSH PRIVILEGES;" > /dev/null 2>&1
-
-echo "==> Installing postgreSQL"
-yum -y install postgresql94-server postgresql94-contrib
-service postgresql-9.4 initdb
-chkconfig postgresql-9.4 --add
-chkconfig postgresql-9.4 on --level 2345
-sed -i "s|host    all             all             127.0.0.1/32            ident|host    all             all             127.0.0.1/32            md5|" /var/lib/pgsql/9.4/data/pg_hba.conf
-sed -i "s|host    all             all             ::1/128                 ident|host    all             all             ::1/128                 md5|" /var/lib/pgsql/9.4/data/pg_hba.conf
-echo -e "host    all             all             10.0.2.2/32               md5" >> /var/lib/pgsql/9.4/data/pg_hba.conf
-service postgresql-9.4 start
-su postgres -c "psql -U postgres -c \"CREATE USER \"entropy\" WITH PASSWORD 'secret';\""
-su postgres -c "psql -U postgres -c \"ALTER USER entropy WITH SUPERUSER;\""
-su postgres -c "createdb -O entropy 'entropy'"
 
 echo "==> Installing nodejs modules"
 yum -y install nodejs npm

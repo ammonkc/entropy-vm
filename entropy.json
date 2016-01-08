@@ -92,6 +92,11 @@
   ],
   "provisioners": [
     {
+      "destination": "/tmp/entropy-metadata.json",
+      "source": "{{user `metadata`}}",
+      "type": "file"
+    },
+    {
       "environment_vars": [
         "CM={{user `cm`}}",
         "CM_VERSION={{user `cm_version`}}",
@@ -144,6 +149,8 @@
     "iso_name": "CentOS-6.7-x86_64-minimal.iso",
     "local": "file:///Volumes/Burn/VMs/ISOs/centos",
     "local_directory": "6.7/isos/x86_64",
+    "ks_path": "centos-6.7/ks.cfg",
+    "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://mirrors.kernel.org/centos",
     "mirror_directory": "6.7/isos/x86_64",
     "name": "centos-6.7",
