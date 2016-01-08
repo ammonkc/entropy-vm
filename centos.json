@@ -12,8 +12,8 @@
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
       "iso_urls": [
-        "{{ user `local` }}/{{ user `local_directory` }}/{{ user `iso_name` }}",
-        "{{ user `mirror` }}/{{ user `mirror_directory` }}/{{ user `iso_name` }}"
+        "{{ user `iso_path` }}/{{ user `iso_name` }}",
+        "{{ user `iso_url` }}"
       ],
       "output_directory": "output-{{ user `vm_name` }}-vmware-iso",
       "shutdown_command": "{{ user `shutdown_command` }}",
@@ -35,8 +35,6 @@
       ],
       "disk_size": "{{ user `disk_size` }}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_additions_sha256": "{{ user `ga_checksum` }}",
-      "guest_additions_url": "/Volumes/Burn/VMs/ISOs/virtualbox/{{.Version}}/VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "{{ user `virtualbox_guest_os_type` }}",
       "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
@@ -44,8 +42,8 @@
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
       "iso_urls": [
-        "{{ user `local` }}/{{ user `local_directory` }}/{{ user `iso_name` }}",
-        "{{ user `mirror` }}/{{ user `mirror_directory` }}/{{ user `iso_name` }}"
+        "{{ user `iso_path` }}/{{ user `iso_name` }}",
+        "{{ user `iso_url` }}"
       ],
       "output_directory": "output-{{ user `vm_name` }}-virtualbox-iso",
       "shutdown_command": "{{ user `shutdown_command` }}",
@@ -54,8 +52,12 @@
       "ssh_wait_timeout": "10000s",
       "type": "virtualbox-iso",
       "vboxmanage": [
-        ["modifyvm", "{{.Name}}", "--memory", "{{ user `memory` }}"],
-        ["modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"]
+        [
+          "modifyvm", "{{.Name}}", "--memory", "{{ user `memory` }}"
+        ],
+        [
+          "modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"
+        ]
       ],
       "virtualbox_version_file": ".vbox_version",
       "vm_name": "{{ user `vm_name` }}"
@@ -76,8 +78,12 @@
       "output_directory": "output-{{ user `vm_name` }}-parallels-iso",
       "parallels_tools_flavor": "lin",
       "prlctl": [
-        ["set", "{{.Name}}", "--memsize", "{{ user `memory` }}"],
-        ["set", "{{.Name}}", "--cpus", "{{ user `cpus` }}"]
+        [
+          "set", "{{.Name}}", "--memsize", "{{ user `memory` }}"
+        ],
+        [
+          "set", "{{.Name}}", "--cpus", "{{ user `cpus` }}"
+        ]
       ],
       "shutdown_command": "{{ user `shutdown_command` }}",
       "ssh_password": "{{ user `ssh_password` }}",
@@ -90,7 +96,7 @@
   "post-processors": [
     {
       "keep_input_artifact": false,
-      "output": "box/{{.Provider}}/{{user `vm_name`}}-{{user `version`}}.box",
+      "output": "box/{{.Provider}}/{{user `vm_name`}}-{{user `cm`}}{{user `cm_version`}}-{{user `version`}}.box",
       "type": "vagrant",
       "vagrantfile_template": "{{ user `vagrantfile_template` }}"
     }
@@ -103,7 +109,6 @@
         "DESKTOP={{user `desktop`}}",
         "DOCKER={{user `docker`}}",
         "UPDATE={{user `update`}}",
-        "HHVM={{user `hhvm`}}",
         "INSTALL_VAGRANT_KEY={{user `install_vagrant_key`}}",
         "SSH_USERNAME={{user `ssh_username`}}",
         "SSH_PASSWORD={{user `ssh_password`}}",
@@ -111,10 +116,7 @@
         "https_proxy={{user `https_proxy`}}",
         "ftp_proxy={{user `ftp_proxy`}}",
         "rsync_proxy={{user `rsync_proxy`}}",
-        "no_proxy={{user `no_proxy`}}",
-        "BOX_VERSION={{user `version`}}",
-        "BOX_NAME={{user `box_name`}}",
-        "PHP_VERSION={{user `php_version`}}"
+        "no_proxy={{user `no_proxy`}}"
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [
@@ -128,13 +130,7 @@
         "script/parallels.sh",
         "script/cmtool.sh",
         "script/docker.sh",
-        "script/entropy/repos.sh",
-        "script/entropy/utils.sh",
-        "script/entropy/wkhtmltox.sh",
-        "script/entropy/server.sh",
-        "script/entropy/h5bp.sh",
-        "script/entropy/hhvm.sh",
-        "script/entropy/motd.sh",
+        "script/motd.sh",
         "script/cleanup.sh"
       ],
       "type": "shell"
@@ -149,33 +145,29 @@
     "disk_size": "65536",
     "docker": "false",
     "ftp_proxy": "{{env `ftp_proxy`}}",
-    "ga_checksum": "61a19c9ec4b449cbc6bb41b636b03a16bf5a47ffa4943423d262863017e8bc9b",
     "headless": "",
-    "hhvm": "true",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "install_vagrant_key": "true",
-    "iso_checksum": "9d3fec5897be6b3fed4d3dda80b8fa7bb62c616bbfd4bdcd27295ca9b764f498",
-    "iso_checksum_type": "sha256",
-    "iso_name": "CentOS-6.7-x86_64-minimal.iso",
-    "local": "/Volumes/Burn/VMs/ISOs/centos",
-    "local_directory": "6.7/isos/x86_64",
+    "iso_checksum": "7bb8c1c23a4fdef93e6f0a6347d570e5764d0b38",
+    "iso_checksum_type": "sha1",
+    "iso_name": "CentOS-6.7-x86_64-bin-DVD1.iso",
+    "iso_path": "/Volumes/Thunder/software/centos",
+    "iso_url": "http://mirrors.kernel.org/centos/6.7/isos/x86_64/CentOS-6.7-x86_64-bin-DVD1.iso",
     "kickstart": "ks6.cfg",
     "memory": "512",
-    "mirror": "http://mirrors.kernel.org/centos",
-    "mirror_directory": "6.7/isos/x86_64",
     "no_proxy": "{{env `no_proxy`}}",
     "parallels_guest_os_type": "centos",
-    "php_version": "php56",
     "rsync_proxy": "{{env `rsync_proxy`}}",
     "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
-    "update": "true",
+    "update": "false",
     "vagrantfile_template": "",
-    "version": "2.3.0",
+    "version": "0.1.0",
     "virtualbox_guest_os_type": "RedHat_64",
-    "vm_name": "entropy",
+    "vm_name": "centos67",
     "vmware_guest_os_type": "centos-64"
   }
 }
+
