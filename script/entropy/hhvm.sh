@@ -19,16 +19,26 @@ ADDITIONAL_ARGS=""
 hhvm=/usr/bin/hhvm
 prog=$(/bin/basename $hhvm)
 lockfile=/var/lock/subsys/hhvm
-pidfile=/var/run/hhvm/pid
+PIDFILE=/var/run/hhvm/pid
 RETVAL=0
+
+# Read configuration variable file if it is present
+[ -r /etc/default/$NAME ] && . /etc/default/$NAME
+
+DAEMON_ARGS="--config ${SYSTEM_CONFIG_FILE} \
+--config ${CONFIG_FILE} \
+--user ${RUN_AS_USER} \
+--mode daemon \
+-vPidFile=${PIDFILE} \
+${ADDITIONAL_ARGS}"
 
 test -x /usr/bin/hhvm || exit 1
 
 start() {
     echo -n $"Starting $prog: "
-    touch $pidfile
-    chown $RUN_AS_USER:$RUN_AS_GROUP $pidfile
-    daemon --pidfile ${pidfile} ${hhvm} --config ${CONFIG_FILE} --mode daemon
+    touch $PIDFILE
+    chown $RUN_AS_USER:$RUN_AS_GROUP $PIDFILE
+    daemon --pidfile ${PIDFILE} ${hhvm} --config ${SYSTEM_CONFIG_FILE} --config ${CONFIG_FILE} --mode daemon
     RETVAL=$?
     echo
     [ $RETVAL = 0 ] && touch ${lockfile}
@@ -37,19 +47,19 @@ start() {
 
 stop() {
     echo -n $"Stopping $prog: "
-    killproc -p ${pidfile} ${prog}
+    killproc -p ${PIDFILE} ${prog}
     RETVAL=$?
     echo
-    [ $RETVAL = 0 ] && rm -f ${lockfile} ${pidfile}
+    [ $RETVAL = 0 ] && rm -f ${lockfile} ${PIDFILE}
 }
 
 rh_status() {
-    status -p ${pidfile} ${hhvm}
+    status -p ${PIDFILE} ${hhvm}
 }
 
 check_run_dir() {
     # Only perform folder creation, if the PIDFILE location was not modified
-    PIDFILE_BASEDIR=$(dirname ${pidfile})
+    PIDFILE_BASEDIR=$(dirname ${PIDFILE})
     # We might have a tmpfs /var/run.
     if [ "/var/run/hhvm" = "${PIDFILE_BASEDIR}" ] && [ ! -d /var/run/hhvm ]; then
         mkdir -p -m0755 /var/run/hhvm
