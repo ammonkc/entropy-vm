@@ -3,7 +3,7 @@
   "vm_name": "entropy",
   "cpus": "1",
   "disk_size": "65536",
-  "ga_checksum": "61a19c9ec4b449cbc6bb41b636b03a16bf5a47ffa4943423d262863017e8bc9b",
+  "ga_checksum": "8190f1e4031f8195971c2a97d2d3b1cf2d86fc83219f750d05cee9255c7dad85",
   "iso_checksum": "9d3fec5897be6b3fed4d3dda80b8fa7bb62c616bbfd4bdcd27295ca9b764f498",
   "iso_checksum_type": "sha256",
   "iso_name": "CentOS-6.7-x86_64-minimal.iso",
@@ -13,5 +13,5 @@
   "kickstart": "ks6.cfg",
   "memory": "512",
   "php_version": "php56",
-  "version": "2.3.0"
+  "version": "2.3.1"
 }
