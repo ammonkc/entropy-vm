@@ -13,5 +13,5 @@
   "kickstart": "ks6.cfg",
   "memory": "512",
   "php_version": "php56",
-  "version": "2.3.2"
+  "version": "2.4.0"
 }
