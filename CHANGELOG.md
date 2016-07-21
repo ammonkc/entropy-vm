@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0.14 (2015-05-22)
+
+* Upgrade VirtualBox Guest Additions to 5.0.20
+* Upgrade Parallels tools to 11.2.0
+* Upgrade VMware Guest Additions to 10.0.6
+
+## 2.0.13 (2015-03-16)
+
+* Upgrade VirtualBox Guest Additions to 5.0.16
+
 ## 2.0.12 (2015-02-22)
 
 * Upgrade Docker to 1.10.1
