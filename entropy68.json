@@ -1,0 +1,17 @@
+{
+  "_comment": "Build with `packer build -var-file=entropy68.json entropy.json`",
+  "vm_name": "entropy",
+  "cpus": "1",
+  "disk_size": "65536",
+  "ga_checksum": "5dc6c570f3b90085e99a881c866a41d9a298a12552cbed7d81f43d1a5d27e096",
+  "iso_checksum": "ec49c297d484b9da0787e5944edc38f7c70f21c0f6a60178d8e9a8926d1949f4",
+  "iso_checksum_type": "sha256",
+  "iso_name": "CentOS-6.8-x86_64-minimal.iso",
+  "local_directory": "6.8/isos/x86_64",
+  "mirror": "http://mirrors.kernel.org/centos",
+  "mirror_directory": "6.8/isos/x86_64",
+  "kickstart": "ks6.cfg",
+  "memory": "512",
+  "php_version": "php56",
+  "version": "2.3.2"
+}
