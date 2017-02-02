@@ -133,7 +133,6 @@
         "script/entropy/wkhtmltox.sh",
         "script/entropy/server.sh",
         "script/entropy/h5bp.sh",
-        "script/entropy/hhvm.sh",
         "script/entropy/motd.sh",
         "script/cleanup.sh"
       ],
