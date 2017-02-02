@@ -1,5 +1,46 @@
 # Changelog
 
+## 2.0.21 (2016-12-15)
+
+* Port private_network workaround from upstream CentOS box
+* Fix centos511-desktop build on paralllels
+
+## 2.0.20 (2016-12-14)
+
+* Add CentOS 7.3 template
+* Remove network workaround that was needed for CentOS 7.x in older versions
+  of vagrant to avoid race condition
+
+## 2.0.19 (2016-12-11)
+
+* Use virtio for better network performance
+* Workaround for gurumediatation error w/CentOS 5.x on VirtualBox 5.1.x
+* Add CentOS 5.11 desktop template
+
+## 2.0.18 (2016-12-03)
+
+* Machine-id is now emptied not removed
+* Upgrade VirtualBox Guest Additions to 5.1.10
+* Upgrade Parallels tools to 12.1.1
+
+## 2.0.17 (2016-11-12)
+
+* Fix issue with Parallels tools install
+* Upgrade VMware tools to 10.0.10.3275 for VMware Fusion 8.5.1
+* Upgrade Parallels tools to 12.1.0
+* Upgrade VirtualBox Guest Additions to 5.1.8
+
+## 2.0.15 (2016-09-26)
+
+* Upgrade to Parallels 12
+* Upgrade Parallels tools to 12.0.2
+* Upgrade VMware tools to 10.0.10 for VMware Fusion 8.5.0
+
+## 2.0.14 (2016-08-27)
+
+* Upgrade VirtualBox Guest Additions to 5.0.26
+* Upgrade Parallels tools to 11.2.1
+
 ## 2.0.14 (2015-05-22)
 
 * Upgrade VirtualBox Guest Additions to 5.0.20
