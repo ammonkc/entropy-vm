@@ -8,21 +8,11 @@ This repository contains Packer templates for creating CentOS Vagrant boxes.
 
 64-bit boxes:
 
-* [CentOS 7.3 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos73)
-* [CentOS 7.2 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos72)
-* [CentOS 7.2 Desktop (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos72-desktop)
-* [CentOS 6.8 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos68)
-* [CentOS 6.8 Desktop (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos68-desktop)
-* [CentOS 6.7 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos67)
-* [CentOS 6.7 Desktop (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos67-desktop)
-* [CentOS 5.11 (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos511)
-* [CentOS 5.11 Desktop (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos511-desktop)
-
-32-bit boxes:
-
-* [CentOS 6.8 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos68-i386)
-* [CentOS 6.7 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos67-i386)
-* [CentOS 5.11 (32-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos511-i386)
+* [CentOS 7.3 (64-bit)](https://app.vagrantup.com/boxcutter/boxes/centos7)
+* [CentOS 7.3 Desktop (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos7-desktop)
+* [CentOS 6.9 (64-bit)](https://app.vagrantup.com/boxcutter/boxes/centos6)
+* [CentOS 6.9 Desktop (64-bit)](https://atlas.hashicorp.com/boxcutter/boxes/centos6-desktop)
+* [CentOS 5.11 (64-bit)](https://app.vagrantup.com/boxcutter/boxes/centos5)
 
 ## Building the Vagrant boxes with Packer
 
@@ -32,21 +22,21 @@ To build all the boxes, you will need [VirtualBox](https://www.virtualbox.org/wi
 
 Parallels requires that the
 [Parallels Virtualization SDK for Mac](http://www.parallels.com/downloads/desktop)
-be installed as an additional preqrequisite.
+be installed as an additional prerequisite.
 
-We make use of JSON files containing user variables to build specific versions of Ubuntu.
+We make use of JSON files containing user variables to build specific versions of CentOS.
 You tell `packer` to use a specific user variable file via the `-var-file=` command line
 option.  This will override the default options on the core `centos.json` packer template,
-which builds CentOS 6.7 by default.
+which builds CentOS 7 by default.
 
-For example, to build CentOS 7.1, use the following:
+For example, to build CentOS 7, use the following:
 
-    $ packer build -var-file=centos71.json centos.json
+    $ packer build -var-file=centos7.json centos.json
 
 If you want to make boxes for a specific desktop virtualization platform, use the `-only`
-parameter.  For example, to build CentOS 7.1 for VirtualBox:
+parameter.  For example, to build CentOS 7 for VirtualBox:
 
-    $ packer build -only=virtualbox-iso -var-file=centos71.json centos.json
+    $ packer build -only=virtualbox-iso -var-file=centos7.json centos.json
 
 The boxcutter templates currently support the following desktop virtualization strings:
 
@@ -57,13 +47,13 @@ The boxcutter templates currently support the following desktop virtualization s
 ## Building the Vagrant boxes with the box script
 
 We've also provided a wrapper script `bin/box` for ease of use, so alternatively, you can use
-the following to build CentOS 7.1 for all providers:
+the following to build CentOS 7 for all providers:
 
-    $ bin/box build centos71
+    $ bin/box build centos7
 
-Or if you just want to build CentOS 7.1 for VirtualBox:
+Or if you just want to build CentOS 7 for VirtualBox:
 
-    $ bin/box build centos71 virtualbox
+    $ bin/box build centos7 virtualbox
 
 ## Building the Vagrant boxes with the Makefile
 
@@ -123,7 +113,7 @@ Upon logout `make ssh-*` will automatically de-register the box as well.
 4. Fix stuff.  Use `make ssh` to interactively test your box (like `make ssh-virtualbox/centos65`).
 5. Run `make test` on a relevant template (like `make test-virtualbox/centos65`) to see if the tests pass.  Repeat steps 3-5 until done.
 6. Update `README.md` and `AUTHORS` to reflect any changes.
-7. If you have a large change in mind, it is still preferred that you split them into small commits.  Good commit messages are important.  The git documentatproject has some nice guidelines on [writing descriptive commit messages](http://git-scm.com/book/ch5-2.html#Commit-Guidelines).
+7. If you have a large change in mind, it is still preferred that you split them into small commits.  Good commit messages are important.  The git documentation project has some nice guidelines on [writing descriptive commit messages](http://git-scm.com/book/ch5-2.html#Commit-Guidelines).
 8. Push to your fork and submit a pull request.
 9. Once submitted, a full `make test` run will be performed against your change in the build farm.  You will be notified if the test suite fails.
 
@@ -140,4 +130,4 @@ their software to run on the basebox build farm.
 
 [SmartyStreets](http://www.smartystreets.com) is providing basebox hosting for the boxcutter project.
 
-![Powered By SmartyStreets](https://smartystreets.com/resources/images/smartystreets-flat.png)
+<img src="https://d79i1fxsrar4t.cloudfront.net/images/brand/smartystreets.65887aa3.png" width="320">

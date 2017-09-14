@@ -1,5 +1,5 @@
 {
-  "_comment": "Build with `packer build centos.json`",
+  "_comment": "Build with `packer build centos5-desktop.json`",
   "builders": [
     {
       "boot_command": [
@@ -110,6 +110,21 @@
   ],
   "provisioners": [
     {
+      "destination": "/tmp",
+      "source": "kickstart/centos5/yum.repos.d/",
+      "type": "file"
+    },
+    {
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "inline": [
+        "mv -f /tmp/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo",
+        "mv -f /tmp/CentOS-fasttrack.repo /etc/yum.repos.d/CentOS-fasttrack.repo",
+        "mv -f /tmp/CentOS-Sources.repo /etc/yum.repos.d/CentOS-Sources.repo",
+        "mv -f /tmp/CentOS-Vault.repo /etc/yum.repos.d/CentOS-Vault.repo"
+      ],
+      "type": "shell"
+    },
+    {
       "environment_vars": [
         "CLEANUP_BUILD_TOOLS={{user `cleanup_build_tools`}}",
         "DESKTOP={{user `desktop`}}",
@@ -143,34 +158,34 @@
   "variables": {
     "cleanup_build_tools": "false",
     "cpus": "1",
-    "desktop": "false",
+    "desktop": "true",
     "disk_size": "65536",
     "ftp_proxy": "{{env `ftp_proxy`}}",
     "headless": "",
-    "http_directory": "kickstart/centos7",
+    "http_directory": "kickstart/centos5-desktop",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "install_vagrant_key": "true",
-    "iso_checksum": "c018577c75b2434fbb2c324789dee0ba887d9c32",
-    "iso_checksum_type": "sha1",
-    "iso_name": "CentOS-7-x86_64-DVD-1611.iso",
+    "iso_checksum": "b6eb0565b636513b90663ff01c6ec4da5058baff0d7d4007d187be997dd985f8",
+    "iso_checksum_type": "sha256",
+    "iso_name": "CentOS-5.11-x86_64-bin-DVD-1of2.iso",
     "iso_path": "iso",
-    "iso_url": "http://mirrors.kernel.org/centos/7.3.1611/isos/x86_64/CentOS-7-x86_64-DVD-1611.iso",
+    "iso_url": "http://archive.kernel.org/centos-vault/5.11/isos/x86_64/CentOS-5.11-x86_64-bin-DVD-1of2.iso",
     "kickstart": "ks.cfg",
     "memory": "512",
     "no_proxy": "{{env `no_proxy`}}",
     "parallels_guest_os_type": "centos",
     "rsync_proxy": "{{env `rsync_proxy`}}",
-    "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
+    "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
     "update": "false",
-    "vagrantfile_template": "",
+    "vagrantfile_template": "tpl/vagrantfile-centos511-desktop.tpl",
     "version": "0.0.99",
     "virtualbox_guest_os_type": "RedHat_64",
-    "virtualbox_paravirtprovider": "default",
-    "virtualbox_nictype": "virtio",
-    "vm_name": "centos7",
+    "virtualbox_paravirtprovider": "none",
+    "virtualbox_nictype": "Am79C973",
+    "vm_name": "centos5-desktop",
     "vmware_guest_os_type": "centos-64"
   }
 }
