@@ -1,14 +1,14 @@
 {
-  "_comment": "Build with `packer build centos.json`",
+  "_comment": "Build with `packer build entropy.json`",
   "builders": [
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/{{ user `kickstart` }}<enter>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/{{ user `kickstart` }}<enter>"
       ],
       "disk_size": "{{ user `disk_size` }}",
       "guest_os_type": "{{ user `vmware_guest_os_type` }}",
       "headless": "{{ user `headless` }}",
-      "http_directory": "http",
+      "http_directory": "{{ user `http_directory` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
       "iso_urls": [
@@ -27,11 +27,12 @@
         "cpuid.coresPerSocket": "1",
         "memsize": "{{ user `memory` }}",
         "numvcpus": "{{ user `cpus` }}"
-      }
+      },
+      "vmx_remove_ethernet_interfaces": true
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/{{ user `kickstart` }}<enter>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/{{ user `kickstart` }}<enter>"
       ],
       "disk_size": "{{ user `disk_size` }}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
@@ -40,7 +41,7 @@
       "guest_os_type": "{{ user `virtualbox_guest_os_type` }}",
       "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
-      "http_directory": "http",
+      "http_directory": "{{ user `http_directory` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
       "iso_urls": [
@@ -54,19 +55,29 @@
       "ssh_wait_timeout": "10000s",
       "type": "virtualbox-iso",
       "vboxmanage": [
-        ["modifyvm", "{{.Name}}", "--memory", "{{ user `memory` }}"],
-        ["modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"]
+        [
+          "modifyvm", "{{.Name}}", "--memory", "{{ user `memory` }}"
+        ],
+        [
+          "modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}"
+        ],
+        [
+          "modifyvm", "{{.Name}}", "--paravirtprovider", "{{ user `virtualbox_paravirtprovider` }}"
+        ],
+        [
+          "modifyvm", "{{.Name}}", "--nictype1", "{{ user `virtualbox_nictype` }}"
+        ]
       ],
       "virtualbox_version_file": ".vbox_version",
       "vm_name": "{{ user `vm_name` }}"
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/{{ user `kickstart` }}<enter>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/{{ user `kickstart` }}<enter>"
       ],
       "disk_size": "{{ user `disk_size` }}",
       "guest_os_type": "{{ user `parallels_guest_os_type` }}",
-      "http_directory": "http",
+      "http_directory": "{{ user `http_directory` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
       "iso_urls": [
@@ -98,10 +109,8 @@
   "provisioners": [
     {
       "environment_vars": [
-        "CM={{user `cm`}}",
-        "CM_VERSION={{user `cm_version`}}",
+        "CLEANUP_BUILD_TOOLS={{user `cleanup_build_tools`}}",
         "DESKTOP={{user `desktop`}}",
-        "DOCKER={{user `docker`}}",
         "UPDATE={{user `update`}}",
         "HHVM={{user `hhvm`}}",
         "INSTALL_VAGRANT_KEY={{user `install_vagrant_key`}}",
@@ -126,8 +135,7 @@
         "script/vmware.sh",
         "script/virtualbox.sh",
         "script/parallels.sh",
-        "script/cmtool.sh",
-        "script/docker.sh",
+        "custom-script.sh",
         "script/entropy/repos.sh",
         "script/entropy/utils.sh",
         "script/entropy/wkhtmltox.sh",
@@ -140,29 +148,27 @@
     }
   ],
   "variables": {
-    "cm": "nocm",
-    "cm_version": "",
+    "cleanup_build_tools": "false",
     "cpus": "1",
-    "cutom_script": ".",
     "desktop": "false",
     "disk_size": "65536",
-    "docker": "false",
     "ftp_proxy": "{{env `ftp_proxy`}}",
-    "ga_checksum": "61a19c9ec4b449cbc6bb41b636b03a16bf5a47ffa4943423d262863017e8bc9b",
+    "ga_checksum": "6df8c8ab6e7ac3a70a5e29116f8a5dcdb7dfbd0b226ef849a5cd9502e956b06f",
     "headless": "true",
     "hhvm": "true",
+    "http_directory": "kickstart/centos7",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "install_vagrant_key": "true",
-    "iso_checksum": "9d3fec5897be6b3fed4d3dda80b8fa7bb62c616bbfd4bdcd27295ca9b764f498",
+    "iso_checksum": "27bd866242ee058b7a5754e83d8ee8403e216b93d130d800852a96f41c34d86a",
     "iso_checksum_type": "sha256",
-    "iso_name": "CentOS-6.7-x86_64-minimal.iso",
+    "iso_name": "CentOS-7-x86_64-Minimal-1611.iso",
     "local": "/Volumes/Burn/VMs/ISOs/centos",
-    "local_directory": "6.7/isos/x86_64",
-    "kickstart": "ks6.cfg",
+    "local_directory": "7.3.1611/isos/x86_64",
+    "kickstart": "ks.cfg",
     "memory": "512",
     "mirror": "http://mirrors.kernel.org/centos",
-    "mirror_directory": "6.7/isos/x86_64",
+    "mirror_directory": "7.3.1611/isos/x86_64",
     "no_proxy": "{{env `no_proxy`}}",
     "parallels_guest_os_type": "centos",
     "php_version": "php56",
@@ -170,10 +176,12 @@
     "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
     "ssh_password": "vagrant",
     "ssh_username": "vagrant",
-    "update": "true",
+    "update": "false",
     "vagrantfile_template": "",
     "version": "2.3.0",
     "virtualbox_guest_os_type": "RedHat_64",
+    "virtualbox_paravirtprovider": "default",
+    "virtualbox_nictype": "virtio",
     "vm_name": "entropy",
     "vmware_guest_os_type": "centos-64"
   }
