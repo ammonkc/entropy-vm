@@ -5,9 +5,8 @@ echo "==> Installing Apache"
 yum -y install httpd mod_ssl mod_fastcgi
 
 # Start httpd service
-chkconfig httpd --add
-chkconfig httpd on --level 2345
-service httpd start
+systemctl enable httpd.service
+systemctl start httpd.service
 
 # Disable sendfile
 sed -i 's/#EnableSendfile off/EnableSendfile off/g' /etc/httpd/conf/httpd.conf
@@ -44,9 +43,8 @@ else
 fi
 
 # Start php-fpm service
-chkconfig php-fpm --add
-chkconfig php-fpm on --level 235
-service php-fpm start
+systemctl enable php-fpm.service
+systemctl start php-fpm.service
 #Configure Apache to use mod_fastcgi
 sed -i 's/FastCgiWrapper On/FastCgiWrapper Off/g' /etc/httpd/conf.d/fastcgi.conf
 echo -e "<IfModule mod_fastcgi.c>\nDirectoryIndex index.html index.shtml index.cgi index.php\nAddHandler php5-fcgi .php\nAction php5-fcgi /php5-fcgi\nAlias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\nFastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -pass-header Authorization\n</IfModule>" >> /etc/httpd/conf.d/fastcgi.conf
@@ -73,9 +71,8 @@ else
   yum --enablerepo=remi,remi-php71 -y install mariadb mariadb-devel mariadb-server php-mysqlnd
 fi
 # Start mysqld service
-chkconfig mysqld --add
-chkconfig mysqld on --level 2345
-service mysqld start
+systemctl enable mysqld.service
+systemctl start  mysqld.service
 # Mysql privileges
 mysql -e "GRANT ALL ON *.* TO 'entropy'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('secret') WHERE User='entropy'; FLUSH PRIVILEGES;" > /dev/null 2>&1
 mysql -e "GRANT ALL ON *.* TO 'entropy'@'localhost' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('secret') WHERE User='entropy'; FLUSH PRIVILEGES;" > /dev/null 2>&1
@@ -83,13 +80,12 @@ mysql -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; UPDATE mysql.user SE
 
 echo "==> Installing postgreSQL"
 yum -y install postgresql96-server postgresql96-contrib
-service postgresql-9.6 initdb
-chkconfig postgresql-9.6 --add
-chkconfig postgresql-9.6 on --level 2345
+/usr/pgsql-9.6/bin/postgresql96-setup initdb
+systemctl enable postgresql-9.6
 sed -i "s|host    all             all             127.0.0.1/32            ident|host    all             all             127.0.0.1/32            md5|" /var/lib/pgsql/9.6/data/pg_hba.conf
 sed -i "s|host    all             all             ::1/128                 ident|host    all             all             ::1/128                 md5|" /var/lib/pgsql/9.6/data/pg_hba.conf
 echo -e "host    all             all             10.0.2.2/32               md5" >> /var/lib/pgsql/9.6/data/pg_hba.conf
-service postgresql-9.4 start
+systemctl start postgresql-9.6
 su postgres -c "psql -U postgres -c \"CREATE USER \"entropy\" WITH PASSWORD 'secret';\""
 su postgres -c "psql -U postgres -c \"ALTER USER entropy WITH SUPERUSER;\""
 su postgres -c "createdb -O entropy 'entropy'"
@@ -120,10 +116,9 @@ echo "==> Installing Beanstalkd"
 # -y --force-yes
 yum -y install beanstalkd
 # Set to start on system start
-chkconfig beanstalkd --add
-chkconfig beanstalkd on --level 2345
+systemctl enable beanstalkd.service
 # Start Beanstalkd
-service beanstalkd start
+systemctl start beanstalkd.service
 
 echo "==> Installing Supervisord"
 
@@ -131,10 +126,9 @@ echo "==> Installing Supervisord"
 # -y --force-yes
 yum -y install supervisor
 # Set to start on system start
-chkconfig supervisord --add
-chkconfig supervisord on --level 2345
+systemctl enable supervisord.service
 # Start Supervisord
-service supervisord start
+systemctl start supervisord.service
 
 echo ">>> Installing memcached"
 
@@ -144,9 +138,8 @@ else
   yum --enablerepo=remi,remi-php71 -y install php-pecl-memcached memcached libmemcached-devel
 fi
 sed -i 's/OPTIONS=""/OPTIONS="-l 127.0.0.1"/' /etc/sysconfig/memcached
-chkconfig memcached --add
-chkconfig memcached on --level 235
-service memcached start
+systemctl enable memcached.service
+systemctl start memcached.service
 
 echo "==> Installing redis"
 if [ "$PHP_VERSION" = "php56" ]; then
@@ -154,9 +147,8 @@ if [ "$PHP_VERSION" = "php56" ]; then
 else
   yum --enablerepo=remi -y install redis php-redis
 fi
-chkconfig --add redis
-chkconfig --level 345 redis on
-service redis start
+systemctl enable redis.service
+systemctl start redis.service
 
 echo "==> dnsmasq nameserver"
 yum -y install dnsmasq
@@ -178,9 +170,8 @@ domain=dev
 local=/dev/
 EOF
 echo -e "192.168.10.20 entropy.dev" > /etc/hosts.dnsmasq
-chkconfig dnsmasq --add
-chkconfig dnsmasq on --level 235
-service dnsmasq start
+systemctl enable dnsmasq.service
+systemctl start dnsmasq.service
 
 echo "==> Network fix"
 
@@ -195,17 +186,14 @@ sh /etc/start_netfix.sh
 
 echo "==> Setup NFS"
 
-chkconfig nfs --add
-chkconfig nfs on --level 2345
-service nfs start
+systemctl enable nfs.service
+systemctl start nfs.service
 
-chkconfig nfslock --add
-chkconfig nfslock on --level 2345
-service nfslock start
+systemctl enable nfslock.service
+systemctl start nfslock.service
 
-chkconfig rpcbind --add
-chkconfig rpcbind on --level 2345
-service rpcbind start
+systemctl enable rpcbind.service
+systemctl start rpcbind.service
 
 echo "==> Setup iptables"
 
