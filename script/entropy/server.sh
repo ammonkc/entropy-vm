@@ -195,12 +195,16 @@ systemctl start nfslock.service
 systemctl enable rpcbind.service
 systemctl start rpcbind.service
 
-echo "==> Setup iptables"
+echo "==> Setup FirewallD"
 
-iptables -I INPUT -p tcp --dport 80 -j ACCEPT
-iptables -I INPUT -p tcp --dport 443 -j ACCEPT
-iptables -I INPUT -p tcp --dport 3306 -j ACCEPT
-iptables -I INPUT -p tcp --dport 5432 -j ACCEPT
-iptables -I INPUT -p tcp --dport 8081 -j ACCEPT
-iptables -I INPUT -p tcp --dport 53 -j ACCEPT
-service iptables save
+systemctl start firewalld
+systemctl enable firewalld
+
+firewall-cmd --zone=public --permanent --add-service=http
+firewall-cmd --zone=public --permanent --add-service=https
+firewall-cmd --zone=public --permanent --add-service=mysql
+firewall-cmd --zone=public --permanent --add-service=postgresql
+firewall-cmd --zone=public --permanent --add-service=dns
+firewall-cmd --zone=public --permanent --add-port=8081/tcp
+firewall-cmd --reload
+
