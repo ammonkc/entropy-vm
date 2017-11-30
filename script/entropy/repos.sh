@@ -19,6 +19,5 @@ if grep -q -i "release 7" /etc/redhat-release ; then
 fi
 
 yum -y install epel-release
-rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
-rpm -Uvh remi-release-*.rpm rpmforge-release-*.rpm pgdg-*.rpm
+rpm -Uvh remi-release-*.rpm pgdg-*.rpm
 
