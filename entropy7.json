@@ -4,7 +4,7 @@
   "cpus": "1",
   "disk_size": "65536",
   "http_directory": "kickstart/centos7",
-  "ga_checksum": "631ca8e8d513acf43a75de56a71a31aaffb5624864c57d10346ba657d991ec1e",
+  "ga_checksum": "8317a0479a94877829b20a19df8a7c09187b31eecb3f1ed9d2b8cb8681a81bb8",
   "iso_checksum": "bba314624956961a2ea31dd460cd860a77911c1e0a56e4820a12b9c5dad363f5",
   "iso_checksum_type": "sha256",
   "iso_name": "CentOS-7-x86_64-Minimal-1708.iso",
