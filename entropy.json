@@ -196,7 +196,7 @@
     "mirror_directory": "7.4.1708/isos/x86_64",
     "no_proxy": "{{env `no_proxy`}}",
     "parallels_guest_os_type": "centos",
-    "php_version": "php56",
+    "php_version": "php71",
     "rsync_proxy": "{{env `rsync_proxy`}}",
     "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
     "ssh_password": "vagrant",

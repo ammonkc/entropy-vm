@@ -13,6 +13,6 @@
   "mirror_directory": "7.4.1708/isos/x86_64",
   "memory": "512",
   "parallels_guest_os_type": "centos7",
-  "php_version": "php56",
+  "php_version": "php71",
   "version": "3.4.0"
 }

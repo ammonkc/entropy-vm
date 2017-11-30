@@ -38,9 +38,9 @@ mkdir -p /etc/httpd/conf/vhosts/{available,enabled}
 
 echo "==> Installing PHP-FPM"
 if [ "$PHP_VERSION" = "php56" ]; then
-  yum --enablerepo=remi,remi-php56 -y install php-common php-cli php-pear php-fpm php-gd php-xml php-mbstring php-mcrypt
+  yum --enablerepo=remi,remi-php56 -y install php-common php-cli php-pear php-fpm php-pdo php-gd php-xml php-mbstring php-mcrypt
 else
-  yum --enablerepo=remi -y install php-common php-cli php-pear php-fpm php-gd php-xml php-mbstring php-mcrypt
+  yum --enablerepo=remi,remi-php71 -y install php-common php-cli php-pear php-fpm php-pdo php-gd php-xml php-mbstring php-mcrypt
 fi
 
 # Start php-fpm service
@@ -70,7 +70,7 @@ echo "==> Installing mysqld"
 if [ "$PHP_VERSION" = "php56" ]; then
   yum --enablerepo=remi,remi-php56 -y install mysql mysql-devel mysql-server php-mysql
 else
-  yum --enablerepo=remi -y install mysql mysql-devel mysql-server php-mysql
+  yum --enablerepo=remi,remi-php71 -y install mysql mysql-devel mysql-server php-mysql
 fi
 # Start mysqld service
 chkconfig mysqld --add
@@ -141,7 +141,7 @@ echo ">>> Installing memcached"
 if [ "$PHP_VERSION" = "php56" ]; then
   yum --enablerepo=remi,remi-php56 -y install php-pecl-memcached memcached libmemcached-devel
 else
-  yum --enablerepo=remi -y install php-pecl-memcached memcached libmemcached-devel
+  yum --enablerepo=remi,remi-php71 -y install php-pecl-memcached memcached libmemcached-devel
 fi
 sed -i 's/OPTIONS=""/OPTIONS="-l 127.0.0.1"/' /etc/sysconfig/memcached
 chkconfig memcached --add
