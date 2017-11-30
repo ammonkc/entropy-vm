@@ -82,13 +82,13 @@ mysql -e "GRANT ALL ON *.* TO 'entropy'@'localhost' WITH GRANT OPTION; UPDATE my
 mysql -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('Dbr00+') WHERE User='root'; FLUSH PRIVILEGES;" > /dev/null 2>&1
 
 echo "==> Installing postgreSQL"
-yum -y install postgresql94-server postgresql94-contrib
-service postgresql-9.4 initdb
-chkconfig postgresql-9.4 --add
-chkconfig postgresql-9.4 on --level 2345
-sed -i "s|host    all             all             127.0.0.1/32            ident|host    all             all             127.0.0.1/32            md5|" /var/lib/pgsql/9.4/data/pg_hba.conf
-sed -i "s|host    all             all             ::1/128                 ident|host    all             all             ::1/128                 md5|" /var/lib/pgsql/9.4/data/pg_hba.conf
-echo -e "host    all             all             10.0.2.2/32               md5" >> /var/lib/pgsql/9.4/data/pg_hba.conf
+yum -y install postgresql96-server postgresql96-contrib
+service postgresql-9.6 initdb
+chkconfig postgresql-9.6 --add
+chkconfig postgresql-9.6 on --level 2345
+sed -i "s|host    all             all             127.0.0.1/32            ident|host    all             all             127.0.0.1/32            md5|" /var/lib/pgsql/9.6/data/pg_hba.conf
+sed -i "s|host    all             all             ::1/128                 ident|host    all             all             ::1/128                 md5|" /var/lib/pgsql/9.6/data/pg_hba.conf
+echo -e "host    all             all             10.0.2.2/32               md5" >> /var/lib/pgsql/9.6/data/pg_hba.conf
 service postgresql-9.4 start
 su postgres -c "psql -U postgres -c \"CREATE USER \"entropy\" WITH PASSWORD 'secret';\""
 su postgres -c "psql -U postgres -c \"ALTER USER entropy WITH SUPERUSER;\""
