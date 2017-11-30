@@ -145,7 +145,7 @@ echo "==> Installing redis"
 if [ "$PHP_VERSION" = "php56" ]; then
   yum --enablerepo=remi,remi-php56 -y install redis php-redis
 else
-  yum --enablerepo=remi -y install redis php-redis
+  yum --enablerepo=remi,remi-php71 -y install redis php-redis
 fi
 systemctl enable redis.service
 systemctl start redis.service
