@@ -68,9 +68,9 @@ sed -i 's|;date.timezone =|date.timezone = Pacific/Honolulu|' /etc/php.ini
 
 echo "==> Installing mysqld"
 if [ "$PHP_VERSION" = "php56" ]; then
-  yum --enablerepo=remi,remi-php56 -y install mysql mysql-devel mysql-server php-mysql
+  yum --enablerepo=remi,remi-php56 -y install mysql mysql-devel mysql-server php-mysqlnd
 else
-  yum --enablerepo=remi,remi-php71 -y install mysql mysql-devel mysql-server php-mysql
+  yum --enablerepo=remi,remi-php71 -y install mariadb mariadb-devel mariadb-server php-mysqlnd
 fi
 # Start mysqld service
 chkconfig mysqld --add
