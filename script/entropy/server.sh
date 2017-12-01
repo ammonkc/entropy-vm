@@ -171,6 +171,10 @@ wget https://raw.githubusercontent.com/geerlingguy/ansible-role-mailhog/master/t
 chown root:root mailhog.init.j2
 chmod +x mailhog.init.j2
 mv mailhog.init.j2 /etc/init.d/mailhog
+wget https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64
+chmod +x mhsendmail_linux_amd64
+chown root:root mhsendmail_linux_amd64
+mv mhsendmail_linux_amd64 /usr/sbin/mhsendmail
 
 chkconfig mailhog on
 systemctl start mailhog
