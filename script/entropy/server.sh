@@ -65,7 +65,7 @@ echo "==> Installing mysqld"
 if [ "$PHP_VERSION" = "php56" ]; then
   yum --enablerepo=remi,remi-php56 -y install mysql mysql-devel mysql-server php-mysqlnd
 else
-  yum --enablerepo=remi,remi-php71 -y install mariadb mariadb-devel mariadb-server php-mysqlnd
+  yum --enablerepo=remi,remi-php71 -y install MariaDB-server MariaDB-client php-mysqlnd
 fi
 # Start mysqld service
 systemctl enable mariadb.service

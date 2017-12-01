@@ -14,6 +14,18 @@ fi
 if grep -q -i "release 7" /etc/redhat-release ; then
     wget http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
     wget https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+    # vhosts.conf
+cat <<EOF > /etc/yum.repos.d/mariadb.repo
+# MariaDB 10.1 CentOS repository list - created 2017-12-01 22:42 UTC
+# http://downloads.mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.1/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+enabled=1
+EOF
+
 fi
 
 yum -y install epel-release
