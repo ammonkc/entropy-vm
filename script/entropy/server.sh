@@ -2,7 +2,7 @@
 
 echo "==> Installing Apache"
 
-yum -y install httpd mod_ssl mod_fastcgi
+yum -y install httpd mod_ssl
 
 # Start httpd service
 systemctl enable httpd.service
@@ -45,12 +45,9 @@ fi
 # Start php-fpm service
 systemctl enable php-fpm.service
 systemctl start php-fpm.service
+
 #Configure Apache to use mod_fastcgi
-sed -i 's/FastCgiWrapper On/FastCgiWrapper Off/g' /etc/httpd/conf.d/fastcgi.conf
-echo -e "<IfModule mod_fastcgi.c>\nDirectoryIndex index.html index.shtml index.cgi index.php\nAddHandler php5-fcgi .php\nAction php5-fcgi /php5-fcgi\nAlias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\nFastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -pass-header Authorization\n</IfModule>" >> /etc/httpd/conf.d/fastcgi.conf
-mkdir /usr/lib/cgi-bin/
-# Fix Permissions
-chown -R apache:apache /var/run/mod_fastcgi
+
 # optimise php-fpm
 echo -e "include=/etc/php-fpm.d/*.conf" >> /etc/php-fpm.conf
 sed -i 's/;listen.backlog = -1/listen.backlog = 1000/' /etc/php-fpm.d/www.conf
@@ -101,14 +98,14 @@ mv composer.phar /usr/local/bin/composer
 chmod 755 /usr/local/bin/composer
 /usr/local/bin/composer self-update
 
-echo "==> Installing laravel"
+# echo "==> Installing laravel"
 
-curl -sS http://laravel.com/laravel.phar -o /usr/local/bin/laravel
-chmod 755 /usr/local/bin/laravel
+# curl -sS http://laravel.com/laravel.phar -o /usr/local/bin/laravel
+# chmod 755 /usr/local/bin/laravel
 
-echo "==> Installing laravel/envoy"
+# echo "==> Installing laravel/envoy"
 
-/usr/local/bin/composer global require "laravel/envoy=~1.0"
+# /usr/local/bin/composer global require "laravel/envoy=~1.0"
 
 echo "==> Installing Beanstalkd"
 
