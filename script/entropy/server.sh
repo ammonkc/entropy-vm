@@ -68,8 +68,8 @@ else
   yum --enablerepo=remi,remi-php71 -y install mariadb mariadb-devel mariadb-server php-mysqlnd
 fi
 # Start mysqld service
-systemctl enable mysqld.service
-systemctl start  mysqld.service
+systemctl enable marisadb.service
+systemctl start  marisadb.service
 # Mysql privileges
 mysql -e "GRANT ALL ON *.* TO 'entropy'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('secret') WHERE User='entropy'; FLUSH PRIVILEGES;" > /dev/null 2>&1
 mysql -e "GRANT ALL ON *.* TO 'entropy'@'localhost' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('secret') WHERE User='entropy'; FLUSH PRIVILEGES;" > /dev/null 2>&1
@@ -97,15 +97,6 @@ curl -sS https://getcomposer.org/installer | /usr/bin/php
 mv composer.phar /usr/local/bin/composer
 chmod 755 /usr/local/bin/composer
 /usr/local/bin/composer self-update
-
-# echo "==> Installing laravel"
-
-# curl -sS http://laravel.com/laravel.phar -o /usr/local/bin/laravel
-# chmod 755 /usr/local/bin/laravel
-
-# echo "==> Installing laravel/envoy"
-
-# /usr/local/bin/composer global require "laravel/envoy=~1.0"
 
 echo "==> Installing Beanstalkd"
 
@@ -170,16 +161,30 @@ echo -e "192.168.10.20 entropy.dev" > /etc/hosts.dnsmasq
 systemctl enable dnsmasq.service
 systemctl start dnsmasq.service
 
-echo "==> Network fix"
+echo "==> Installing MailHog"
+yum -y install daemonize.x86_64
+wget https://github.com/mailhog/MailHog/releases/download/v1.0.0/MailHog_linux_amd64
+chmod +x MailHog_linux_amd64
+chown root:root MailHog_linux_amd64
+mv MailHog_linux_amd64 /usr/sbin/mailhog
+wget https://raw.githubusercontent.com/geerlingguy/ansible-role-mailhog/master/templates/mailhog.init.j2
+chown root:root mailhog.init.j2
+chmod +x mailhog.init.j2
+mv mailhog.init.j2 /etc/init.d/mailhog
 
-cat <<EOF > /etc/start_netfix.sh
-rm -f /etc/udev/rules.d/70-persistent-net.rules
-sed -i '/HWADDR/d' /etc/sysconfig/network-scripts/ifcfg-eth0
-sed -i '/UUID/d' /etc/sysconfig/network-scripts/ifcfg-eth0
-rm -f /etc/sysconfig/network-scripts/ifcfg-eth1
-EOF
+chkconfig mailhog on
+systemctl start mailhog
 
-sh /etc/start_netfix.sh
+# echo "==> Network fix"
+
+# cat <<EOF > /etc/start_netfix.sh
+# rm -f /etc/udev/rules.d/70-persistent-net.rules
+# sed -i '/HWADDR/d' /etc/sysconfig/network-scripts/ifcfg-eth0
+# sed -i '/UUID/d' /etc/sysconfig/network-scripts/ifcfg-eth0
+# rm -f /etc/sysconfig/network-scripts/ifcfg-eth1
+# EOF
+
+# sh /etc/start_netfix.sh
 
 echo "==> Setup NFS"
 
@@ -197,11 +202,13 @@ echo "==> Setup FirewallD"
 systemctl start firewalld
 systemctl enable firewalld
 
+firewall-cmd --zone=public --permanent --add-service=ssh
 firewall-cmd --zone=public --permanent --add-service=http
 firewall-cmd --zone=public --permanent --add-service=https
 firewall-cmd --zone=public --permanent --add-service=mysql
 firewall-cmd --zone=public --permanent --add-service=postgresql
 firewall-cmd --zone=public --permanent --add-service=dns
 firewall-cmd --zone=public --permanent --add-port=8081/tcp
+firewall-cmd --zone=public --permanent --add-port=8025/tcp
 firewall-cmd --reload
 
