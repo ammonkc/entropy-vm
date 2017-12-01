@@ -1,6 +1,6 @@
 #!/bin/bash -eux
 
-echo "==> Install EPEL, remi, hop5, pgdg, and rpmforge yum repos"
+echo "==> Install EPEL, remi, hop5, pgdg, and mariadb yum repos"
 yum -y install wget
 
 cd /tmp
