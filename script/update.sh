@@ -3,7 +3,7 @@
 if [[ $UPDATE  =~ true || $UPDATE =~ 1 || $UPDATE =~ yes ]]; then
     echo "==> Applying updates"
     yum -y update
-    yum -y install gcc cpp make curl kernel-devel kernel-headers perl
+    yum -y install gcc cpp make curl kernel-devel kernel-headers perl bzip2
 
     # reboot
     echo "Rebooting the machine..."
