@@ -206,7 +206,6 @@ echo "==> Setup FirewallD"
 systemctl start firewalld
 systemctl enable firewalld
 
-firewall-cmd --zone=public --permanent --add-service=ssh
 firewall-cmd --zone=public --permanent --add-service=http
 firewall-cmd --zone=public --permanent --add-service=https
 firewall-cmd --zone=public --permanent --add-service=mysql
