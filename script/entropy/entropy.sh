@@ -23,16 +23,15 @@ echo -e "
 ################################################
 Vagrant Box.......: ammonkc/entropy (v@@BOX_VERSION@@)
 hostname..........: `hostname`
-IP Address........: `/sbin/ifconfig eth1 | grep 'inet addr' | awk -F: '{print $2}' | awk '{print $1}'`
+IP Address........: `/usr/sbin/ip addr show eth1 | grep 'inet ' | cut -f2 | awk '{print $2}'`
 OS Release........: `cat /etc/redhat-release`
 kernel............: `uname -r`
 User..............: `whoami`
-Apache............: `httpd -v | grep 'Server version' | awk '{print $3}' | tr -d Apache/`
-PHP...............: `php -v | grep cli | awk '{print $2}'`
-HHVM..............: `hhvm --version | grep 'HipHop VM' | awk '{print $3}'`
-MySQL.............: `mysql -V | awk '{print $5}' | tr -d ,`
-PostgreSQL........: `psql --version | awk '{print $3}'`
-Wkhtmltopdf.......: `wkhtmltopdf --version | awk '{print $2}'`
+Apache............: `/usr/sbin/httpd -v | grep 'Server version' | awk '{print $3}' | tr -d Apache/`
+PHP...............: `/usr/bin/php -v | grep cli | awk '{print $2}'`
+MySQL.............: `/usr/bin/mysql -V | awk '{print $5}' | tr -d ,`
+PostgreSQL........: `/usr/bin/psql --version | awk '{print $3}'`
+Wkhtmltopdf.......: `/usr/local/bin/wkhtmltopdf --version | awk '{print $2}'`
 Configured Sites..:
 `cat /etc/hosts.dnsmasq`
 ################################################
