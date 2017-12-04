@@ -71,9 +71,9 @@ fi
 systemctl enable mariadb.service
 systemctl start  mariadb.service
 # Mysql privileges
-mysql -e "GRANT ALL ON *.* TO 'entropy'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('secret') WHERE User='entropy'; FLUSH PRIVILEGES;" > /dev/null 2>&1
-mysql -e "GRANT ALL ON *.* TO 'entropy'@'localhost' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('secret') WHERE User='entropy'; FLUSH PRIVILEGES;" > /dev/null 2>&1
-mysql -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('Dbr00+') WHERE User='root'; FLUSH PRIVILEGES;" > /dev/null 2>&1
+mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'entropy'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION; FLUSH PRIVILEGES;" > /dev/null 2>&1
+mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'entropy'@'localhost' IDENTIFIED BY 'secret' WITH GRANT OPTION; FLUSH PRIVILEGES;" > /dev/null 2>&1
+mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'Dbr00+' WITH GRANT OPTION; FLUSH PRIVILEGES;" > /dev/null 2>&1
 
 echo "==> Installing postgreSQL"
 yum -y install postgresql96-server postgresql96-contrib
