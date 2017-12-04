@@ -14,6 +14,7 @@ fi
 if grep -q -i "release 7" /etc/redhat-release ; then
     wget http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
     wget https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+    sudo wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo
     # vhosts.conf
 cat <<EOF > /etc/yum.repos.d/mariadb.repo
 # MariaDB 10.1 CentOS repository list - created 2017-12-01 22:42 UTC

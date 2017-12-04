@@ -89,7 +89,8 @@ su postgres -c "createdb -O entropy 'entropy'"
 
 echo "==> Installing nodejs modules"
 yum -y install nodejs npm
-npm install -g yarn gulp grunt clean-css
+yum -y install yarn
+npm install -g gulp
 
 echo "==> Installing composer"
 
