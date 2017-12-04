@@ -2,7 +2,7 @@
 
 echo "==> Installing Apache"
 
-yum -y install httpd mod_ssl
+yum --enablerepo=remi,remi-php71 -y install httpd mod_ssl
 
 # Start httpd service
 systemctl enable httpd.service
@@ -10,11 +10,32 @@ systemctl start httpd.service
 
 # Disable sendfile
 sed -i 's/#EnableSendfile off/EnableSendfile off/g' /etc/httpd/conf/httpd.conf
+sed -i 's/LoadModule mpm_prefork_module/#LoadModule mpm_prefork_module/g' /etc/httpd/conf.modules.d/00-mpm.conf
+sed -i 's/#LoadModule mpm_event_module/LoadModule mpm_event_module/g' /etc/httpd/conf.modules.d/00-mpm.conf
 # vhosts.conf
 cat <<EOF > /etc/httpd/conf.d/vhosts.conf
     ServerName entropy.dev
     # Load vhost configs from enabled directory
     IncludeOptional sites-enabled/*.conf
+EOF
+# php-fpm.conf
+cat <<EOF > /etc/httpd/conf.d/php-fpm.conf
+# Add index.php to the list of files that will be served as directory indexes.
+DirectoryIndex /index.php index.php
+
+<FilesMatch \.php$>
+    # 2.4.10+ can proxy to unix socket
+    # SetHandler "proxy:unix:/var/run/php-fpm.sock|fcgi://localhost/"
+
+    # Else we can just use a tcp socket:
+    SetHandler "proxy:fcgi://127.0.0.1:9000"
+</FilesMatch>
+
+<IfModule mpm_prefork_module>
+    php_value session.save_handler "files"
+    php_value session.save_path "/var/lib/php/session"
+    php_value soap.wsdl_cache_dir  "/var/lib/php/wsdlcache"
+</IfModule>
 EOF
 # cache.conf
 cat <<EOF > /etc/httpd/conf.d/cache.conf
