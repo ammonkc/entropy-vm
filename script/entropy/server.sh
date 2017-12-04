@@ -13,9 +13,6 @@ sed -i 's/#EnableSendfile off/EnableSendfile off/g' /etc/httpd/conf/httpd.conf
 # vhosts.conf
 cat <<EOF > /etc/httpd/conf.d/vhosts.conf
     ServerName entropy.dev
-    # virtualHost
-    NameVirtualHost *:80
-    NameVirtualHost *:443
     # Load vhost configs from enabled directory
     IncludeOptional sites-enabled/*.conf
 EOF
