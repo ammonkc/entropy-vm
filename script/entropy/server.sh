@@ -17,7 +17,7 @@ cat <<EOF > /etc/httpd/conf.d/vhosts.conf
     NameVirtualHost *:80
     NameVirtualHost *:443
     # Load vhost configs from enabled directory
-    Include conf/vhosts/enabled/*.conf
+    IncludeOptional sites-enabled/*.conf
 EOF
 # cache.conf
 cat <<EOF > /etc/httpd/conf.d/cache.conf
@@ -33,7 +33,7 @@ cat <<EOF > /etc/httpd/conf.d/cache.conf
 EOF
 
 # create directory for vhosts
-mkdir -p /etc/httpd/conf/vhosts/{available,enabled}
+mkdir -p /etc/httpd/{sites-available,sites-enabled}
 
 echo "==> Installing PHP-FPM"
 if [ "$PHP_VERSION" = "php56" ]; then
