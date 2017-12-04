@@ -9,6 +9,7 @@ if grep -q -i "release 6" /etc/redhat-release ; then
     wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
     wget -O /etc/yum.repos.d/hop5.repo http://www.hop5.in/yum/el6/hop5.repo
     wget http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm
+    sudo wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo
 fi
 
 if grep -q -i "release 7" /etc/redhat-release ; then
