@@ -87,7 +87,7 @@ else
 fi
 # Start mysqld service
 systemctl start  mysqld.service
-temppass=`sudo cat /var/log/mysqld.log | grep "A temporary password is generated for" | awk '{print $NF}'`
+temppass=`cat /var/log/mysqld.log | grep "A temporary password is generated for" | awk '{print $NF}'`
 rootpass='entropyDbr00+'
 # Mysql privileges
 mysql -uroot -p$temppass --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$rootpass';" > /dev/null 2>&1
