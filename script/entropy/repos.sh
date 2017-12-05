@@ -14,9 +14,9 @@ fi
 
 if grep -q -i "release 7" /etc/redhat-release ; then
     wget http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+    wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
     wget https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
     sudo wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo
-    # vhosts.conf
 cat <<EOF > /etc/yum.repos.d/mariadb.repo
 # MariaDB 10.1 CentOS repository list - created 2017-12-01 22:42 UTC
 # http://downloads.mariadb.org/mariadb/repositories/
@@ -25,7 +25,7 @@ name = MariaDB
 baseurl = http://yum.mariadb.org/10.1/centos7-amd64
 gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
-enabled=1
+enabled=0
 EOF
 
 fi

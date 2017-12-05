@@ -83,11 +83,11 @@ echo "==> Installing mysqld"
 if [ "$PHP_VERSION" = "php56" ]; then
   yum --enablerepo=remi,remi-php56 -y install mysql mysql-devel mysql-server php-mysqlnd
 else
-  yum --enablerepo=remi,remi-php71 -y install MariaDB-server MariaDB-client php-mysqlnd
+  yum --enablerepo=remi,remi-php71 -y install mysql-server mysql-client php-mysqlnd
 fi
 # Start mysqld service
-systemctl enable mariadb.service
-systemctl start  mariadb.service
+systemctl enable mysqld.service
+systemctl start  mysqld.service
 # Mysql privileges
 mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'entropy'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION; FLUSH PRIVILEGES;" > /dev/null 2>&1
 mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'entropy'@'localhost' IDENTIFIED BY 'secret' WITH GRANT OPTION; FLUSH PRIVILEGES;" > /dev/null 2>&1
