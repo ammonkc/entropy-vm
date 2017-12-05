@@ -90,10 +90,10 @@ systemctl start  mysqld.service
 temppass=`sudo cat /var/log/mysqld.log | grep "A temporary password is generated for" | awk '{print $NF}'`
 rootpass='entropyDbr00+'
 # Mysql privileges
-mysql -uroot -p$temppass -e "ALTER USER 'root'@'%' IDENTIFIED BY '$rootpass';" > /dev/null 2>&1
-mysql -uroot -p$rootpass -e "SET GLOBAL validate_password_length = 6;SET GLOBAL validate_password_number_count = 0;SET GLOBAL validate_password_mixed_case_count = 0;SET GLOBAL validate_password_special_char_count = 0;" > /dev/null 2>&1
-mysql -uroot -p$rootpass -e "GRANT ALL PRIVILEGES ON *.* TO 'entropy'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION; FLUSH PRIVILEGES;" > /dev/null 2>&1
-mysql -uroot -p$rootpass -e "GRANT ALL PRIVILEGES ON *.* TO 'entropy'@'localhost' IDENTIFIED BY 'secret' WITH GRANT OPTION; FLUSH PRIVILEGES;" > /dev/null 2>&1
+mysql -uroot -p$temppass --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$rootpass';" > /dev/null 2>&1
+mysql -uroot -p$rootpass --connect-expired-password -e "SET GLOBAL validate_password_length = 6;SET GLOBAL validate_password_number_count = 0;SET GLOBAL validate_password_mixed_case_count = 0;SET GLOBAL validate_password_special_char_count = 0;" > /dev/null 2>&1
+mysql -uroot -p$rootpass --connect-expired-password -e "GRANT ALL PRIVILEGES ON *.* TO 'entropy'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION; FLUSH PRIVILEGES;" > /dev/null 2>&1
+mysql -uroot -p$rootpass --connect-expired-password -e "GRANT ALL PRIVILEGES ON *.* TO 'entropy'@'localhost' IDENTIFIED BY 'secret' WITH GRANT OPTION; FLUSH PRIVILEGES;" > /dev/null 2>&1
 
 echo "==> Installing postgreSQL"
 yum -y install postgresql96-server postgresql96-contrib
