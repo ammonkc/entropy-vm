@@ -31,5 +31,5 @@ EOF
 fi
 
 yum -y install epel-release
-rpm -Uvh remi-release-*.rpm pgdg-*.rpm
+rpm -Uvh remi-release-*.rpm mysql57-*.rpm pgdg-*.rpm
 
