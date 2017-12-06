@@ -9,14 +9,15 @@ if grep -q -i "release 6" /etc/redhat-release ; then
     wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
     wget -O /etc/yum.repos.d/hop5.repo http://www.hop5.in/yum/el6/hop5.repo
     wget http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm
-    sudo wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo
+    wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo
 fi
 
 if grep -q -i "release 7" /etc/redhat-release ; then
     wget http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
     wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
     wget https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
-    sudo wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo
+    curl --silent --location https://rpm.nodesource.com/setup_8.x | bash -
+    wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo
 cat <<EOF > /etc/yum.repos.d/mariadb.repo
 # MariaDB 10.1 CentOS repository list - created 2017-12-01 22:42 UTC
 # http://downloads.mariadb.org/mariadb/repositories/

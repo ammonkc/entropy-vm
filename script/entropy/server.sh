@@ -108,8 +108,7 @@ su postgres -c "psql -U postgres -c \"ALTER USER entropy WITH SUPERUSER;\""
 su postgres -c "createdb -O entropy 'entropy'"
 
 echo "==> Installing nodejs modules"
-yum -y install nodejs npm
-yum -y install yarn
+yum -y install nodejs yarn
 npm install -g gulp
 
 echo "==> Installing composer"
