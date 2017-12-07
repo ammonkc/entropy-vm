@@ -15,5 +15,5 @@
   "parallels_guest_os_type": "centos7",
   "php_version": "php71",
   "update": "true",
-  "version": "3.4.1"
+  "version": "3.4.2"
 }
