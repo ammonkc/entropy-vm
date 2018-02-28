@@ -55,9 +55,9 @@ mkdir -p /etc/httpd/{sites-available,sites-enabled}
 
 echo "==> Installing PHP-FPM"
 if [ "$PHP_VERSION" = "php56" ]; then
-  yum --enablerepo=remi,remi-php56 -y install php-common php-cli php-pear php-fpm php-pdo php-gd php-xml php-mbstring php-mcrypt
+  yum --enablerepo=remi,remi-php56 -y install php-common php-cli php-pear php-fpm php-pdo php-gd php-xml php-zip php-mbstring php-mcrypt
 else
-  yum --enablerepo=remi,remi-php71 -y install php-common php-cli php-pear php-fpm php-pdo php-gd php-xml php-mbstring php-mcrypt
+  yum --enablerepo=remi,remi-php71 -y install php-common php-cli php-pear php-fpm php-pdo php-gd php-xml php-zip php-mbstring php-mcrypt
 fi
 
 # Start php-fpm service
