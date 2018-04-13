@@ -2,7 +2,7 @@
 
 echo "==> Installing Apache"
 
-yum --enablerepo=remi,remi-php71 -y install httpd mod_ssl
+yum --enablerepo=remi,remi-php72 -y install httpd mod_ssl
 
 # Start httpd service
 systemctl enable httpd.service
@@ -57,7 +57,7 @@ echo "==> Installing PHP-FPM"
 if [ "$PHP_VERSION" = "php56" ]; then
   yum --enablerepo=remi,remi-php56 -y install php-common php-cli php-pear php-fpm php-pdo php-gd php-xml php-zip php-mbstring php-mcrypt
 else
-  yum --enablerepo=remi,remi-php71 -y install php-common php-cli php-pear php-fpm php-pdo php-gd php-xml php-zip php-mbstring php-mcrypt
+  yum --enablerepo=remi,remi-php72 -y install php-common php-cli php-pear php-fpm php-pdo php-gd php-xml php-zip php-mbstring php-mcrypt
 fi
 
 # Start php-fpm service
@@ -83,7 +83,7 @@ echo "==> Installing mysqld"
 if [ "$PHP_VERSION" = "php56" ]; then
   yum --enablerepo=remi,remi-php56 -y install mysql mysql-devel mysql-server php-mysqlnd
 else
-  yum --enablerepo=remi,remi-php71 -y install mysql-community-server mysql-community-client php-mysqlnd
+  yum --enablerepo=remi,remi-php72 -y install mysql-community-server mysql-community-client php-mysqlnd
 fi
 # Start mysqld service
 systemctl start  mysqld.service
@@ -143,7 +143,7 @@ echo ">>> Installing memcached"
 if [ "$PHP_VERSION" = "php56" ]; then
   yum --enablerepo=remi,remi-php56 -y install php-pecl-memcached memcached libmemcached-devel
 else
-  yum --enablerepo=remi,remi-php71 -y install php-pecl-memcached memcached libmemcached-devel
+  yum --enablerepo=remi,remi-php72 -y install php-pecl-memcached memcached libmemcached-devel
 fi
 sed -i 's/OPTIONS=""/OPTIONS="-l 127.0.0.1"/' /etc/sysconfig/memcached
 systemctl enable memcached.service
@@ -153,7 +153,7 @@ echo "==> Installing redis"
 if [ "$PHP_VERSION" = "php56" ]; then
   yum --enablerepo=remi,remi-php56 -y install redis php-redis
 else
-  yum --enablerepo=remi,remi-php71 -y install redis php-redis
+  yum --enablerepo=remi,remi-php72 -y install redis php-redis
 fi
 systemctl enable redis.service
 systemctl start redis.service
