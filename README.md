@@ -20,17 +20,17 @@ be installed as an additional prerequisite.
 
 We make use of JSON files containing user variables to build specific versions of CentOS.
 You tell `packer` to use a specific user variable file via the `-var-file=` command line
-option.  This will override the default options on the core `centos.json` packer template,
+option.  This will override the default options on the core `entropy.json` packer template,
 which builds CentOS 7 by default.
 
 For example, to build CentOS 7, use the following:
 
-    $ packer build -var-file=centos7.json centos.json
+    $ packer build -var-file=entropy7.json entropy.json
 
 If you want to make boxes for a specific desktop virtualization platform, use the `-only`
 parameter.  For example, to build CentOS 7 for VirtualBox:
 
-    $ packer build -only=virtualbox-iso -var-file=centos7.json centos.json
+    $ packer build -only=virtualbox-iso -var-file=entropy7.json entropy.json
 
 The boxcutter templates currently support the following desktop virtualization strings:
 
@@ -43,7 +43,7 @@ The boxcutter templates currently support the following desktop virtualization s
 We've also provided a wrapper script `bin/box` for ease of use, so alternatively, you can use
 the following to build CentOS 7 for all providers:
 
-    $ bin/box build centos7
+    $ bin/box build entropy7
 
 Or if you just want to build CentOS 7 for VirtualBox:
 
@@ -110,18 +110,3 @@ Upon logout `make ssh-*` will automatically de-register the box as well.
 7. If you have a large change in mind, it is still preferred that you split them into small commits.  Good commit messages are important.  The git documentation project has some nice guidelines on [writing descriptive commit messages](http://git-scm.com/book/ch5-2.html#Commit-Guidelines).
 8. Push to your fork and submit a pull request.
 9. Once submitted, a full `make test` run will be performed against your change in the build farm.  You will be notified if the test suite fails.
-
-### Would you like to help out more?
-
-Contact moujan@annawake.com
-
-### Acknowledgments
-
-[Parallels](http://www.parallels.com/) provided a Business Edition license of
-their software to run on the basebox build farm.
-
-<img src="http://www.parallels.com/fileadmin/images/corporate/brand-assets/images/logo-knockout-on-red.jpg" width="80">
-
-[SmartyStreets](http://www.smartystreets.com) provided basebox hosting for the boxcutter project since 2015 - thank you for your support!
-
-<img src="https://d79i1fxsrar4t.cloudfront.net/images/brand/smartystreets.65887aa3.png" width="320">
