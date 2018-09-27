@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.4.3 (2018-09-27)
+
+* Upgrade CentOS 7 to 7.5.1804
+* PHP 7.2
+
 ## 17.0915.1 (2017-09-15)
 
 * Upgrade CentOS 7 to 7.4.1708
