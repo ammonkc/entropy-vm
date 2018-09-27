@@ -2,7 +2,7 @@
 
 echo "==> Installing Apache"
 
-yum --enablerepo=remi,remi-php72 -y install httpd mod_ssl
+yum --enablerepo=remi,remi-${PHP_VERSION} -y install httpd mod_ssl
 
 # Start httpd service
 systemctl enable httpd.service
@@ -54,11 +54,7 @@ EOF
 mkdir -p /etc/httpd/{sites-available,sites-enabled}
 
 echo "==> Installing PHP-FPM"
-if [ "$PHP_VERSION" = "php56" ]; then
-  yum --enablerepo=remi,remi-php56 -y install php-common php-cli php-pear php-fpm php-pdo php-gd php-xml php-zip php-mbstring php-mcrypt
-else
-  yum --enablerepo=remi,remi-php72 -y install php-common php-cli php-pear php-fpm php-pdo php-gd php-xml php-zip php-mbstring php-mcrypt
-fi
+yum --enablerepo=remi,remi-${PHP_VERSION} -y install php-common php-cli php-pear php-fpm php-pdo php-gd php-xml php-zip php-mbstring php-mcrypt
 
 # Start php-fpm service
 systemctl enable php-fpm.service
@@ -83,8 +79,9 @@ echo "==> Installing mysqld"
 if [ "$PHP_VERSION" = "php56" ]; then
   yum --enablerepo=remi,remi-php56 -y install mysql mysql-devel mysql-server php-mysqlnd
 else
-  yum --enablerepo=remi,remi-php72 -y install mysql-community-server mysql-community-client php-mysqlnd
+  yum --enablerepo=remi,remi-${PHP_VERSION} -y install mysql-community-server mysql-community-client php-mysqlnd
 fi
+
 # Start mysqld service
 systemctl start  mysqld.service
 temppass=`cat /var/log/mysqld.log | grep "A temporary password is generated for" | awk '{print $NF}'`
@@ -140,21 +137,15 @@ systemctl start supervisord.service
 
 echo ">>> Installing memcached"
 
-if [ "$PHP_VERSION" = "php56" ]; then
-  yum --enablerepo=remi,remi-php56 -y install php-pecl-memcached memcached libmemcached-devel
-else
-  yum --enablerepo=remi,remi-php72 -y install php-pecl-memcached memcached libmemcached-devel
-fi
+yum --enablerepo=remi,remi-${PHP_VERSION} -y install php-pecl-memcached memcached libmemcached-devel
+
 sed -i 's/OPTIONS=""/OPTIONS="-l 127.0.0.1"/' /etc/sysconfig/memcached
 systemctl enable memcached.service
 systemctl start memcached.service
 
 echo "==> Installing redis"
-if [ "$PHP_VERSION" = "php56" ]; then
-  yum --enablerepo=remi,remi-php56 -y install redis php-redis
-else
-  yum --enablerepo=remi,remi-php72 -y install redis php-redis
-fi
+yum --enablerepo=remi,remi-${PHP_VERSION} -y install redis php-redis
+
 systemctl enable redis.service
 systemctl start redis.service
 
@@ -173,11 +164,11 @@ bind-interfaces
 addn-hosts=/etc/hosts.dnsmasq
 expand-hosts
 EOF
-cat <<EOF > /etc/dnsmasq.d/dev.conf
-domain=dev
-local=/dev/
+cat <<EOF > /etc/dnsmasq.d/test.conf
+domain=test
+local=/test/
 EOF
-echo -e "192.168.10.20 entropy.dev" > /etc/hosts.dnsmasq
+echo -e "192.168.10.20 entropy.test" > /etc/hosts.dnsmasq
 systemctl enable dnsmasq.service
 systemctl start dnsmasq.service
 
